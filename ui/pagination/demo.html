@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="pagination.css" />
+		<script type="text/javascript" src="../../js/lib/jquery-2.24.js" ></script>
+	</head>
+	<body>
+		<div id="child">
+			<div><span></span></div>
+		</div>
+		
+		<div id="a"></div>
+	</body>
+	<script type="text/javascript" src="pagination.js" ></script>
+	<script>
+			function getData(page){
+				//获取数据
+				
+				$("#a").ui_pagination({
+					num:12,	//页码个数
+					count:1010, //总数
+					size:10, //每页展示条数
+					pos:"c",//位置
+					page:page,	//当前页
+					clickEvent:function(page){
+						/**
+						 * 这里是发生事件之后的回调函数
+						 * page是发生事件后的页码
+						 */
+						getData(page);
+					}
+				});
+			}
+			getData(1);
+	</script>
+</html>

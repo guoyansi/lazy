@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>元素</title>
+		<link rel="stylesheet" type="text/css" href="css/base.css"/>
+		<link rel="stylesheet" type="text/css" href="css/lazy.css"/>
+		<!--<style type="text/css">
+			/*webkit内核浏览器*/
+			.ui-input-text::-webkit-input-placeholder,
+			/*Firefox 18-*/
+			.ui-input-text:-moz-placeholder,
+			/*Firefox 19+*/
+			.ui-input-text::-moz-placeholder,
+			.ui-input-text:-ms-input-placeholder,
+			
+			.ui-input-text-sm::-webkit-input-placeholder,
+			.ui-input-text-sm:-moz-placeholder,
+			.ui-input-text-sm::-moz-placeholder,
+			.ui-input-text-sm:-ms-input-placeholder,
+			
+			.ui-input-text-lg::-webkit-input-placeholder,
+			.ui-input-text-lg:-moz-placeholder,
+			.ui-input-text-lg::-moz-placeholder,
+			.ui-input-text-lg:-ms-input-placeholder,
+			
+			.ui-textarea::-webkit-input-placeholder,
+			.ui-textarea:-moz-placeholder,
+			.ui-textarea::-moz-placeholder,
+			.ui-textarea:-ms-input-placeholder,
+			
+			.ui-textarea-sm::-webkit-input-placeholder,
+			.ui-textarea-sm:-moz-placeholder,
+			.ui-textarea-sm::-moz-placeholder,
+			.ui-textarea-sm:-ms-input-placeholder,
+			
+			.ui-textarea-lg::-webkit-input-placeholder,
+			.ui-textarea-lg:-moz-placeholder,
+			.ui-textarea-lg::-moz-placeholder,
+			.ui-textarea-lg:-ms-input-placeholder{
+				color:red;
+			}
+		</style>-->
+		<style type="text/css">
+			:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+			    color: #f00;  
+			}
+			
+			::-moz-placeholder { /* Mozilla Firefox 19+ */
+			    color: #f00;
+			}
+			
+			input:-ms-input-placeholder,
+			textarea:-ms-input-placeholder {
+			    color: #f00;
+			}
+			
+			input::-webkit-input-placeholder,
+			textarea::-webkit-input-placeholder {
+			    color: #f00;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>导航</h1>
+		<div class="ui-nav">
+			<span class="ui-nav-history ui-nav-font-blue ui-nav-line">考场设置(带链接)</span>
+			<span class="ui-nav-split">&gt;</span>
+			<span class="ui-nav-history ui-nav-font-blue">考场设置(不带链接)</span>
+			<span class="ui-nav-split">&gt;</span>
+			<span class="ui-nav-current">新增考场</span>
+		</div>
+		<h1>按钮</h1>
+		<input class="ui-btn" type="button" value="默认"/>
+		<input class="ui-btn ui-btn-brown" type="button" value="棕色"/>
+		<input class="ui-btn ui-btn-green" type="button" value="绿色"/>
+		<input class="ui-btn ui-btn-blue" type="button" value="蓝色"/>
+		<input class="ui-btn ui-btn-red" type="button" value="红色"/>
+		<input class="ui-btn ui-btn-yellow" type="button" value="黄色"/>
+		<h1>文本框</h1>
+		<input class="ui-input-text-sm" type="text" placeholder="文本框" />
+		<textarea class="ui-textarea-sm" placeholder="文本域"></textarea>
+		<br />
+		<input class="ui-input-text" type="text" placeholder="文本框" />
+		<textarea class="ui-textarea" placeholder="文本域"></textarea>
+		<br />
+		<input class="ui-input-text-lg" type="text" placeholder="文本框" />
+		<textarea class="ui-textarea-lg" placeholder="文本域"></textarea>
+		<h1>复选框</h1>
+		<span class="ui-checkbox"><input type="checkbox" />乒乓球</span>
+		<span class="ui-checkbox"><input type="checkbox" />羽毛球</span>
+		<span class="ui-checkbox"><input type="checkbox" />足球</span>
+		<span class="ui-checkbox"><input type="checkbox" />篮球</span>
+		<span class="ui-checkbox"><input type="checkbox" />跑步</span>
+		<h1>单选框</h1>
+		<span class="ui-radio"><input type="radio" />男</span>
+		<span class="ui-radio"><input type="radio" />女</span>
+		<h1>表单</h1>
+		<div class="ui-form" style="width: 70%;border: 1px solid gray;">
+			<div class="ui-form-row">
+				<span class="base-tr ui-form-left">书名：</span>
+				<div class="ui-form-right">
+					<input class="ui-input-text" type="text" placeholder="书名" />
+				</div>
+			</div>
+			<div class="ui-form-row">
+				<span class="base-tr ui-form-left">家庭地址：</span>
+				<div class="ui-form-right">
+					<input class="ui-input-text" type="text" placeholder="书名" />
+					<span class="ui-form-des-red">*</span>
+				</div>
+			</div>
+			<div class="ui-form-row">
+				<span class="base-tr ui-form-left">书名：</span>
+				<div class="ui-form-right">
+					<input class="ui-input-text" type="text" placeholder="书名" />
+					<span class="ui-form-des">书名描述信息</span>
+				</div>
+			</div>
+			<div class="ui-form-row">
+				<span class="base-tr ui-form-left">性别：</span>
+				<div class="ui-form-right">
+					<span class="ui-radio"><input type="radio" />男</span>
+					<span class="ui-radio"><input type="radio" />女</span>
+				</div>
+			</div>
+			<div class="ui-form-row">
+				<span class="base-tr ui-form-left">兴趣爱好：</span>
+				<div class="ui-form-right">
+					<span class="ui-checkbox"><input type="checkbox" />乒乓球</span>
+					<span class="ui-checkbox"><input type="checkbox" />羽毛球</span>
+					<span class="ui-checkbox"><input type="checkbox" />足球</span>
+					<span class="ui-checkbox"><input type="checkbox" />篮球</span>
+					<span class="ui-checkbox"><input type="checkbox" />跑步</span>
+				</div>
+			</div>
+			<div class="ui-form-row">
+				<span class="base-tr ui-form-left">部门信息：</span>
+				<div class="ui-form-right">
+					<select class="ui-select">
+						<option value="">研发部</option>
+						<option value="">工程部</option>
+						<option value="">财务部</option>
+						<option value="">销售部</option>
+					</select>
+				</div>
+			</div>
+			<div class="ui-form-row">
+				<span class="base-tr ui-form-left">兴趣爱好：</span>
+				<div class="ui-form-right">
+					<textarea class="ui-textarea" placeholder="注意事项"></textarea>
+				</div>
+			</div>
+			<div class="ui-form-row">
+				<span class="base-tr ui-form-left">上传图片：</span>
+				<div class="ui-form-right">
+					<input type="file" />
+				</div>
+			</div>
+			<div class="ui-form-row">
+				<span class="base-tr ui-form-left">兴趣爱好：</span>
+				<div class="ui-form-right">
+					<input class="ui-btn ui-btn-blue" type="button" value="确定" />
+					<input class="ui-btn ui-btn-red" type="button" value="重置" />
+				</div>
+			</div>
+		</div>
+		<h1>表格</h1>
+		<table class="ui-table" style="width:500px">
+			<caption class="ui-table-caption">搜索结果</caption>
+			<thead class="ui-table-thead">
+				<tr class="ui-table-tr">
+					<td class="ui-table-td ui-table-center" style="width: 20%;">编号</td>
+					<td class="ui-table-td ui-table-center" style="width: 20%;">姓名</td>
+					<td class="ui-table-td ui-table-center" style="width: 20%;">电话</td>
+					<td class="ui-table-td ui-table-center" style="width: 20%;">年龄</td>
+					<td class="ui-table-td ui-table-center" style="width: 20%;">地址</td>
+				</tr>
+			</thead>
+			<tbody>
+				<tr class="ui-table-tr ui-table-left">
+					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
+					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
+					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
+					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
+					<td class="ui-table-td ui-table-left">安徽省，合肥市高新区</td>
+				</tr>
+				<tr class="ui-table-tr">
+					<td class="ui-table-td ui-table-center">1</td>
+					<td class="ui-table-td ui-table-center">张晓明</td>
+					<td class="ui-table-td ui-table-center">15755196671</td>
+					<td class="ui-table-td ui-table-center">126</td>
+					<td class="ui-table-td ui-table-center">安徽省，合肥市高新区</td>
+				</tr>
+				<tr class="ui-table-tr">
+					<td class="ui-table-td ui-table-right">1</td>
+					<td class="ui-table-td ui-table-right">张晓明</td>
+					<td class="ui-table-td ui-table-right">15755196671</td>
+					<td class="ui-table-td ui-table-right">126</td>
+					<td class="ui-table-td  ui-table-left">安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区</td>
+				</tr>
+			</tbody>
+		</table>
+			
+	</body>
+</html>

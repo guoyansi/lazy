@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script type="text/javascript" src="../../jquery-2.1.4.min.js" ></script>
+		<script type="text/javascript" src="../../bridge18.js" ></script>
+	</head>
+	<body>
+		<div style="height: 1000px;"></div>
+		<button onclick="gopage()" style="position: fixed; top: 10px; left: 20px;">跳转页面</button>
+	</body>
+	<script type="text/javascript">
+		function gopage(){
+			bg.goPage(function(){
+				window.location.href="o.html";
+			});
+		}
+		
+	</script>
+</html>
