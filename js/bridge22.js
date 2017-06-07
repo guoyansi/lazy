@@ -7,20 +7,6 @@
 		this.param=param;		
 	}
 	
-	
-	/**
-     * 替换所有指定的字符
-     * str 字符串
-     * origin 需要替换的字符
-     * target 替换成这个字符
-     */
-    Bridge.replaceAll=function(str,origin,target){
-        if(str.indexOf(origin)<0){
-            return str;
-        }else{
-            return arguments.callee(str.replace(origin,target),origin,target);
-        }
-    };
 	/**
 	* 当填写参数h后,解析你给的参数,如果为空自动从获取浏览器的地址
 	* 测试路径:>>>http://127.0.0.1:8020/url/index.html?id=1.2&gys=7777777777777777777777777&name=思思博士#api/126
@@ -330,7 +316,6 @@
 							handleError(s, xml, status);
 						}
 					} catch(e) {
-						alert(2);
 						status = "error";
 						handleError(s, xml, status, e);
 					}
@@ -663,7 +648,7 @@
 			var lsIndex=0;
 			var condition="";
 			//var lsStr='test="bg{';
-			var lsStr='test="{';
+			var lsStr='{';
 			var failTagIndex=0;
 			var rightKhIndex=0;
 			
@@ -681,7 +666,11 @@
 				}
 				var end=ifConditionStr.indexOf("}");
 				condition=ifConditionStr.substring(start+lsStr.length,end);
-				newStr+="@%if("+condition+"){%@";
+				if(type=="<bg:if"){
+					newStr+="@%if("+condition+"){%@";
+				}else{
+					newStr+="@%else if("+condition+"){%@";
+				}
 				newStr+=arr[i].substr(failTagIndex+1);
 			}
 			return newStr;
@@ -743,8 +732,11 @@
 				failTagIndex=arr[i].indexOf(">");
 				eachStr=trim(arr[i].substring(0,failTagIndex));
 				var $xml=$.parseXML("<root><bgeach "+eachStr+"></bgeach></root>");
-				var obj=$("bgeach",$xml)
-				var items=trim(obj.attr("items"));
+				var obj=$("bgeach",$xml);
+				var items=obj.attr("items");
+				if(items){
+					items=trim(items);					
+				}
 				var step=obj.attr("step");
 				step=step?step:1;
 				var item=obj.attr("item");
@@ -771,11 +763,12 @@
 					newStr+="for(var "+xhvar+"=0;"+xhvar+"<"+arraylen+";"+xhvar+"+="+step+"){";
 					newStr+="var "+item+"="+collection+"["+xhvar+"];";
 					if(status&&isNaN(status)){
-						newStr+="var "+status+"={};";
+						newStr+="var "+status+"={first:false,last:true};";
 						newStr+="if("+xhvar+"==0){"+status+".first=true}else{"+status+".fist=false}";
-						newStr+="if("+xhvar+"+"+step+">"+arraylen+"){"+status+".last=true;}else{"+status+".last=false;}%@";
-						newStr+=status+".index="+xhvar;
-						newStr+=status+".count=++"+xhCount;
+						newStr+="if("+xhvar+"+"+step+">="+arraylen+"){"+status+".last=true;}else{"+status+".last=false;}";
+						newStr+=status+".index="+xhvar+";";
+						newStr+=status+".count=++"+xhCount+";";
+						newStr+=status+".step="+step+";";
 					}
 					newStr+="%@";
 					newStr+=arr[i].substr(failTagIndex+1);
@@ -786,7 +779,7 @@
 					newStr+="for(var "+k+" in "+collection+"){";
 					newStr+="var "+item+"={key:"+k+",value:"+collection+"["+k+"]};";
 					if(status&&isNaN(status)){
-						newStr+="var "+status+"={};";
+						newStr+="var "+status+"={first:false,last:true,step:1};";
 						newStr+=status+".count=++"+xhCount+";";
 						newStr+="if("+xhCount+"==1){"+status+".first=true;}else{"+status+".first=false;}";
 						newStr+="if("+xhCount+"==maxCount){"+status+".last=true;}else{"+status+".last=false;}";
@@ -812,7 +805,6 @@
 					}
 					newStr+="%@";
 					newStr+=arr[i].substr(failTagIndex+1);
-					newStr+="@%}%@";
 				}
 			}
 			return newStr;
@@ -879,7 +871,7 @@
 				<li>我是else</li>
 			</bg:else>
 			<li>我的年龄：bg{myAge}</li>
-			<bg:each items="bg{bgScope.list}" var="item" status="status" step="1">
+			<bg:each items="bg{bgScope.list}" item="item" status="status" step="1">
 				<li>
 					<bg:if test="bg{status.index%2==0}">
 						<div>我是偶数项</div>
@@ -921,6 +913,11 @@ Bridge.tmp=function(str,data,debug){
 	}
 	return htmlEngine(s,data,debug);
 }
+/**
+ * var html=bg("#scriptTmp").tmp(data,debug);
+ * @param {Object} data
+ * @param {Object} debug
+ */
 OtherBridge.prototype.tmp=function(data,debug){
 	var s=tmpEngine($(this.param).html(),data);
 	if(debug){
@@ -930,52 +927,8 @@ OtherBridge.prototype.tmp=function(data,debug){
 	return htmlEngine(s,data,debug);
 };	
 	
-	/**
-	 * 页面跳转,刷新页面前的拦截
-	 * form的submit和window.location.href的拦截,
-	 * 用于记录滚动条的位置
-	 * isRecordScroll 是否记录滚动条 
-	 * 执行form的submit和window.location.href的操作
-	 */
-Bridge.goPage=function(isRecordScroll,callback){
-	if(window.sessionStorage){
-		if(typeof isRecordScroll=="function"){
-			callback=isRecordScroll;
-			isRecordScroll=false;
-		}
-		var doc=$(document);
-		if(typeof isRecordScroll=="boolean"&&isRecordScroll){
-			var scrollTop=doc.scrollTop();
-			var scrollLeft=doc.scrollLeft();
-			window.sessionStorage.setItem("scrollTop",scrollTop);
-			window.sessionStorage.setItem("scrollLeft",scrollLeft);
-		}else{
-			window.sessionStorage.removeItem("scrollTop");
-			window.sessionStorage.removeItem("scrollLeft");
-		}
-	}
-	callback();
-};
 	window.bg=Bridge;
 })();
-
-$(function(){
-	/*设置滚动条*/
-	if(!window.sessionStorage){
-		return ;
-	}
-	var scrollTop=window.sessionStorage.getItem("scrollTop");
-	var scrollLeft=window.sessionStorage.getItem("scrollLeft");
-	if(scrollTop&&scrollLeft){
-		scrollTop=Number(scrollTop);
-		scrollLeft=Number(scrollLeft);
-		var doc=$(document);
-		doc.scrollTop(scrollTop);
-		doc.scrollLeft(scrollLeft);
-		window.sessionStorage.removeItem("scrollTop");
-		window.sessionStorage.removeItem("scrollLeft");
-	}
-});
 
 
 
