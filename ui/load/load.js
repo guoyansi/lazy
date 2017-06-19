@@ -1,6 +1,6 @@
 /**ajax加载效果**/
 (function($) {
-	$.ui_load = function(opt) { //开始ajax
+	$.ui_load = function(opt) {//开始ajax
 		var defaults={
 			icon:1,//1:css旋转,2:gif动画,3:纯文字
 			msg:"数据处理中..."
@@ -8,11 +8,12 @@
 		if($("#ui-load-shade").length>0){
 			return;
 		}
+		var op={};
 		if(typeof opt=="string"){
-			defaults.msg=opt;
-		}
-		if(!opt.icon){
-			opt.icon=0;
+			//defaults.msg=opt;
+			op.msg=opt;
+			op.icon=0;
+			opt=op;
 		}
 		opt=$.extend({},defaults,opt);
 		var html = "";
@@ -29,11 +30,17 @@
 		html += "</div>";
 		html += "</div>";
 		$("body").append(html);
-	}
+		return $("#ui-load-shade");
+	};
 	$.ui_load_close = function() { //结束ajax
 		$("#ui-load-shade").remove();
-	}
-
+	};
+	$.ui_load_setText=function(msg,obj){
+		if(!obj){
+			obj=$("#ui-load-shade");
+		}
+		$(".ui-load-text",obj).html(msg);
+	};
 })(jQuery);
 
 /**ajax加载效果end**/

@@ -14,28 +14,34 @@
 			<input onclick="gys1()" type="button" value="ajax加载,css3动画(默认)" />
 			<input onclick="gys2()" type="button" value="ajax加载,带加载效果gif" />
 			<input onclick="gys3()" type="button" value="ajax加载,纯文字效果" />
-			
+			<input onclick="updateMsg()" type="button" value="修改标语" />
 			<input onclick="gyss()" type="button" value="ajaxclose" />
 		</div>
 		<div style="height:10000px"></div>
 			<script type="text/javascript">
+			var loader=null;
 			function gys1() {
-				$.ui_load({
+				loader=$.ui_load({
 					icon:1,
 					msg:"加载中..."
 				});
 			}
 			function gys2() {
-				$.ui_load({
+				loader=$.ui_load({
 					icon:2,
 					msg:"加载中..."
 				});
 			}
 			function gys3() {
-				$.ui_load("加载中...");
+				loader=$.ui_load("加载中...");
 			}
 			function gyss() {
 				$.ui_load_close();
+			}
+			var i=0;
+			function updateMsg(){
+				i+=10;
+				$.ui_load_setText("加载中"+i+"%...",loader);
 			}
 		</script>
 	</body>
