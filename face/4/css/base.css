@@ -221,3 +221,8 @@ button {
 .base-vh{
 	visibility: hidden;
 }
+.base-eli{
+	white-space:nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
