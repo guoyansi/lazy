@@ -95,7 +95,7 @@
 		});
 		$(".ui-pagination",obj).width(pageWidth+2);
 	}
-	$.fn.ui_pagination=function(opts){
+	$.fn.ui_pn=$.fn.ui_pagination=function(opts){
 		opts=$.extend({},defaults,opts);
 		if(opts.count==0){
 			opts.count=1;

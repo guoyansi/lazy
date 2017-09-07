@@ -1,6 +1,6 @@
 (function($) {
 	//关闭弹出框
-	$.ui_dialogClose = function(who) {
+	$.ui_dgc=$.ui_dialogClose = function(who) {
 		var close = function(who) {
 			if (!who)
 				who = "s";
@@ -16,7 +16,7 @@
 		close(who);
 	};
 	//提示框
-	$.ui_dialog = function(opts) {
+	$.ui_dg=$.ui_dialog = function(opts) {
 		var defaults = {
 			title: "提示",
 			width: 0,
@@ -77,7 +77,7 @@
 		}
 	};
 	//编辑框
-	$.fn.ui_dialog = function(opts) {
+	$.fn.ui_dg=$.fn.ui_dialog = function(opts) {
 		$("#testFocus").focus();
 			var defaults = {
 				title: "编辑框标题",
