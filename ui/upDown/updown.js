@@ -72,6 +72,8 @@
 			}
 		};
 		var defaults={
+			left:0,
+			right:0,
 			top:0,
 			bottom:0/*,
 			up:function(callback){
@@ -89,7 +91,7 @@
 		 * 为了解决苹果手机在有滚动条的情况下,滑动不顺畅的原因
 		 */
 		var obj = $(this).css({"overflow":"auto","height":"100%","-webkit-overflow-scrolling":"touch"});
-		obj.wrap("<div id='"+idname+"' style='position:absolute;z-index:10;top:"+opt.top+"px;bottom:"+opt.bottom+"px;width:100%'></div>");//.append("<div class='ui-reload-load ui-reload-load1'></div><div class='ui-reload-load ui-reload-load2'></div>");
+		obj.wrap("<div id='"+idname+"' style='position:absolute;z-index:10;top:"+opt.top+"px;bottom:"+opt.bottom+"px;left:"+opt.left+"px;right:"+opt.right+"px'></div>");//.append("<div class='ui-reload-load ui-reload-load1'></div><div class='ui-reload-load ui-reload-load2'></div>");
 		$("#"+idname).prepend("<div class='ui-reload-load ui-reload-load1'><span class='ui-relaod-load-icon'></span></div>").append("<div class='ui-reload-load ui-reload-load2'><span class='ui-relaod-load-icon'></span></div>");
 		shade($("#"+idname));
 		opt.up(function() {
@@ -130,6 +132,7 @@
 				if(uiloadH<=-50){
 					uiloadH=-50;
 				}
+				console.log(st+";"+upCodition(st));
 				if(st == 0||upCodition(st)) {
 					$("#"+idname).find(".ui-reload-load2").height(Math.abs(uiloadH));
 					if(uiloadH==-50){

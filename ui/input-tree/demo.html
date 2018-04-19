@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			* {
+				padding: 0;
+				margin: 0;
+			}
+		</style>
+		<link rel="stylesheet" type="text/css" href="tree.css"/>
+		<script type="text/javascript" src="jquery-2.1.0.js" ></script>
+		<script type="text/javascript" src="tree.js" ></script>
+	</head>
+
+	<body>
+		<div id="tree"></div>
+	</body>
+	
+<script type="text/javascript">
+	var data=[{
+	"id":1,
+	"text":"My Documents",
+	"open":true,
+	"children":[{
+		"id":11,
+		"text":"Photos",
+		"open":false,
+		"children":[{
+			"id":111,
+			"text":"Friend"
+		},{
+			"id":112,
+			"text":"Wife"
+		},{
+			"id":113,
+			"text":"Company"
+		}]
+	},{
+		"id":12,
+		"text":"Program Files",
+		
+		"children":[{
+			"id":121,
+			"text":"Intel"
+		},{
+			"id":122,
+			"text":"Java",
+			"attributes":{
+				"p1":"Custom Attribute1",
+				"p2":"Custom Attribute2"
+			}
+		},{
+			"id":123,
+			"text":"Microsoft Office"
+		},{
+			"id":124,
+			"text":"Games",
+			"checked":true
+		}]
+	},{
+		"id":13,
+		"text":"index.html"
+	},{
+		"id":14,
+		"text":"about.html"
+	},{
+		"id":15,
+		"text":"welcome.html"
+	}]
+}]
+;
+
+data=[
+ {
+	"id":1,
+	"text":"java",
+	"children":true
+ },
+ {
+	"id":2,
+	"text":".net",
+	"children":true
+ },
+ {
+	"id":3,
+	"text":"node",
+	"children":false
+ }
+];
+/**
+ * type:1点击加载下级节点
+ */
+	var j=0;
+	$("#tree").ui_tree({
+		id:"id",
+		text:"text",
+		type:1,
+		data:data,
+		value:"",
+		zIndex:1000,
+		click:function(data){
+			
+		},
+		getChild:function(nodeDom,callback){
+			$.ajax({
+				type:"get",
+				url:"1.json",
+				success:function(data){
+					for(var i=0;i<data.length;i++){
+						for(var k in data[i]){
+							if(k=="children"){
+								continue;
+							}
+							data[i][k]=data[i][k]+j;
+						}
+					}
+					callback(data);
+					j++;
+				}
+			});
+		}
+		
+	});
+</script>
+</html>

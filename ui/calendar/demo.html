@@ -15,6 +15,8 @@
 	</head>
 	<body>
 		<input id="rl1" type="text" style="margin-left: 200px; margin-top: 50px;" placeholder="2015-05-06"/>
+		<input id="rl5" type="text" style="margin-left: 200px; margin-top: 50px;" placeholder="150506"/>
+		<input id="rl4" type="text" style="margin-left: 200px; margin-top: 50px;" placeholder="2015-5-6"/>
 		<input id="rl2" type="text" style="margin-left: 200px; margin-top: 50px;" placeholder="2015/05/06" />
 		<input id="rl3" type="text" style="margin-left: 200px; margin-top: 50px;"  placeholder="2015年05月06" />
 		<!--<div class="ui-calendar-box">
@@ -130,6 +132,19 @@
 	<script type="text/javascript">
 		$("#rl1").ui_calendar({
 			format:1,
+			inputClass:"rl1",
+			defindDate:function(date){//自定义时间格式
+				return date;
+			}
+		});
+		$("#rl5").ui_calendar({
+			format:5,
+			defindDate:function(date){//自定义时间格式
+				return date.substr(2);
+			}
+		});
+		$("#rl4").ui_calendar({
+			format:4,
 			inputClass:"rl1"
 		});
 		$("#rl2").ui_calendar({

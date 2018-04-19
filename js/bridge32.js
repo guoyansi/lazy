@@ -164,7 +164,7 @@
      * 后台(单个上传)
      * @RequestMapping(value = "/uploadM1", method = RequestMethod.POST)
 		@ResponseBody
-		public String doUploadFile1(@RequestParam("file") CommonsMultipartFile file)
+		public String doUploadFile1(@RequestParam("file") CommonsMultipartFile file,HttpServletRequest request)
 				throws IOException {
 			String curProjectPath=request.getServletContext().getRealPath("/upload");
 			File saveFile=new File(curProjectPath);
@@ -438,6 +438,7 @@
 			"xlc":"application/vnd.ms-excel",
 			"xlm":"application/vnd.ms-excel",
 			"xls":"application/vnd.ms-excel",
+			"xlsl":"application/vnd.ms-excel",
 			"xlt":"application/vnd.ms-excel",
 			"xlw":"application/vnd.ms-excel",
 			"xml":"text/xml,application/xml",
@@ -449,8 +450,10 @@
 			}
 			var accept=[];
 			var len=ext.length;
+			var v="";
 			for(var i=0;i<len;i++){
-				if(accept.indexOf(extName[ext[i]])==-1){
+				v=extName[ext[i]];
+				if(v&&accept.indexOf(v)==-1){
 					accept.push(extName[ext[i]]);
 				}
 			}
@@ -483,7 +486,7 @@
 			},
 			end:function(){
 				
-			},
+			}
 		};
 		opts = $.extend({}, defaults, opts);
 		var fileID = "fileId" + (new Date()).getTime();

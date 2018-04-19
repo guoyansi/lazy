@@ -126,23 +126,34 @@
 		objBox.appendTo("body");
 		return objBox;
 	};
-	var appendTime=function(objInput,objDay,format){
+	var appendTime=function(objInput,objDay,opts){
+		var format=opts.format;
 		var y=objDay.attr("y");
 		var m=objDay.attr("m");
 		var d=objDay.attr("d");
-		m=m>=10?m:"0"+m;
-		d=d>=10?d:"0"+d;
+		var dm=m>=10?m:"0"+m;
+		var dd=d>=10?d:"0"+d;
+		var value="";
 		if(format==1){//2015-05-06
-			objInput.val(y+"-"+m+"-"+d);
+			value=y+"-"+dm+"-"+dd;
 		}else if(format==2){//2015/05/06
-			objInput.val(y+"/"+m+"/"+d);
+			value=y+"/"+dm+"/"+dd;
 		}else if(format==3){//2015年05月06日
-			objInput.val(y+"年"+m+"月"+d+"日");
+			value=y+"年"+dm+"月"+dd+"日";
+		}else if(format==4){
+			value=y+"-"+m+"-"+d;
+		}else if(format==5){//20150506
+			value=y+dm+dd;
 		}
+		value=opts.defindDate(value);
+		objInput.val(value);
 	}
 	var defaults={
 		format:1,
-		inputClass:""
+		inputClass:"",
+		defindDate:function(date){
+			return date;
+		}
 	};
 	$.fn.ui_calendar=function(opts){
 		opts=$.extend({},defaults,opts);
@@ -228,7 +239,7 @@
 					$(".ui-calendar-y-select",objBox).hide().html(getYearOption(y));
 					$(".ui-calendar-select-option-y.ui-calendar-select-current").removeClass("ui-calendar-select-current");
 					$(".ui-calendar-select-option-y[value="+y+"]",objBox).addClass("ui-calendar-select-current");
-					appendTime(obj,$(".ui-calendar-day-current",objBox),opts.format);
+					appendTime(obj,$(".ui-calendar-day-current",objBox),opts);
 				}).on("click",".ui-calendar-select-option-m",function(){//单击月option
 					var _this=$(this);
 					if(_this.is(".ui-calendar-select-current")){
@@ -240,12 +251,12 @@
 					$(".ui-calendar-m-select",objBox).hide();
 					$(".ui-calendar-select-option-m.ui-calendar-select-current").removeClass("ui-calendar-select-current");
 					$(".ui-calendar-select-option-m[value="+m+"]",objBox).addClass("ui-calendar-select-current");
-					appendTime(obj,$(".ui-calendar-day-current",objBox),opts.format);
+					appendTime(obj,$(".ui-calendar-day-current",objBox),opts);
 				}).on("click",".ui-calendar-day",function(){//单机日期
 					$(".ui-calendar-day-current",objBox).removeClass("ui-calendar-day-current");
 					var _this=$(this);
 					_this.addClass("ui-calendar-day-current");
-					appendTime(obj,_this,opts.format);
+					appendTime(obj,_this,opts);
 					$(".ui-calendar-box").remove();
 				});
 			});
