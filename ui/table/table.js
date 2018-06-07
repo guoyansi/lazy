@@ -7,7 +7,7 @@
 	};
 	var startHtml = function(objTable, columns, index) {
 		$("tr", objTable).each(function() {
-			$(this).children().eq(index).fadeOut("fast");
+			$(this).children().eq(index).fadeOut(200);
 		});
 		var showBtnHtml = showBtn(index, columns[index]);
 		var objShowBtn = $(showBtnHtml);
@@ -15,12 +15,25 @@
 		objShowBtn.click(function() {
 			var i = $(this).attr("index");
 			$("tr", objTable).each(function() {
-				$(this).children().eq(i).fadeIn("slow");
+				$(this).children().eq(i).fadeIn(500);
 			});
 			$(this).remove();
+			setTimeout(function(){
+				htmlWhenNoData(objTable);
+			},500);
 		});
 	};
-
+	var htmlWhenNoData=function(objTable){
+		if($("tbody tr",objTable).not(".ui-tr-nodata").length>0){
+			return;
+		}		
+		var maxColumn=0;
+		$("tr",objTable).each(function(){
+			var count=$(this).find("td:visible").length;
+			maxColumn=count>maxColumn?count:maxColumn;
+		});
+		$("tbody",objTable).html("<tr class='ui-table-center ui-tr-nodata'><td class='ui-table-td' colspan='"+maxColumn+"'>暂无数据</td></tr>");
+	};
 	$.fn.ui_table = function() {
 		this.each(function() {
 			var objTable = this;
@@ -39,13 +52,18 @@
 						return;
 					}
 					startHtml(objTable, columns, index);
+					setTimeout(function(){
+						htmlWhenNoData(objTable);
+					},220);
 				});
 				var display = objTd.attr("display");
 				if(display && display == "none") {
 					startHtml(objTable, columns, index);
 				}
-
 			});
+			setTimeout(function(){
+				htmlWhenNoData(objTable);
+			},220);
 		});
 	}
 })(jQuery);

@@ -298,5 +298,4 @@
 			zIndex = Number(objls.css("z-index"));
 		return zIndex;
 	}
-
 })(jQuery);
