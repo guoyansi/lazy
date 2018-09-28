@@ -54,6 +54,14 @@ body{
 .ui-btn-yellow:hover{
 	background-color: #e5b90c;
 }
+.ui-btn-line{
+	color: #478de4;
+	cursor: pointer;
+	text-decoration: none;
+}
+.ui-btn-line:hover{
+	text-decoration: underline;
+}
 .ui-select,
 .ui-select-sm,
 .ui-select-lg,

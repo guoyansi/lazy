@@ -15,24 +15,25 @@
 	</body>
 	<script type="text/javascript" src="pagination.js" ></script>
 	<script>
-			function getData(page){
+			function getData(page,size){
 				//获取数据
 				
 				$("#a").ui_pn({
-					num:7,	//页码个数
 					count:1010, //总数
-					size:10, //每页展示条数
+					size:size, //每页展示条数
+					sizes:[10,200,300],
 					pos:"c",//位置
 					page:page,	//当前页
-					clickEvent:function(page){
+					clickEvent:function(page,size){
 						/**
 						 * 这里是发生事件之后的回调函数
 						 * page是发生事件后的页码
 						 */
-						getData(page);
+						//alert(page);
+						getData(page,size);
 					}
 				});
 			}
-			getData(4);
+			getData(4,10);
 	</script>
 </html>

@@ -3,10 +3,11 @@
 		num:10,	//页码个数
 		count:102, //总数
 		size:10, //每页展示条数
+		sizes:[10,20,30],
 		pos:"c",//l,r,c
 		//hiddenPosition:7,
 		page:1,	//当前页
-		clickEvent:function(page){
+		clickEvent:function(page,size){
 	 		
 		}
 	};
@@ -38,7 +39,15 @@
 		}else{
 			html+="<div class='ui-pagination ui-pagination-position-center'>";
 		}
-		
+		html+="<select class='ui-pageSizes'>";
+		for(var k=0;k<opts.sizes.length;k++){
+			if(opts.size==opts.sizes[k]){
+				html+="<option value="+opts.sizes[k]+" selected='selected'>"+opts.sizes[k]+"</option>";
+			}else{
+				html+="<option value="+opts.sizes[k]+">"+opts.sizes[k]+"</option>";				
+			}
+		}
+		html+="</select>";
 		//html+="<span class='ui-pagination-text'>共"+opts.count+"条记录 ,"+pageCount+"页</span>";
 		html+="<a class='ui-pagination-FirstPage'><label>首页</label></a>";
 			html+="<a class='ui-pagination-PrevPage'>上页</a>";
@@ -93,7 +102,7 @@
 		$(".ui-pagination",obj).children().each(function(){
 			pageWidth+=$(this).outerWidth(true);
 		});
-		$(".ui-pagination",obj).width(pageWidth+2);
+		$(".ui-pagination",obj).width(pageWidth+opts.num+6);
 	}
 	$.fn.ui_pn=$.fn.ui_pagination=function(opts){
 		opts=$.extend({},defaults,opts);
@@ -104,16 +113,20 @@
 			var obj=$(this).addClass("ui-pagination-box");
 			var pageCount=Math.ceil(opts.count/opts.size);//总页数
 			resetHtml(opts,obj);
+			//单击页码
 			$("a.ui-pagination-Num",obj).click(function(){
 				var page=parseInt($(this).html());
 				if(page==opts.page){
 					return;
 				}
 				opts.page=page;
-				opts.clickEvent(page);
+				opts.clickEvent(page,$(".ui-pageSizes",obj).val());
 			});
-			
-			
+			//下拉框size变动
+			$(".ui-pageSizes",obj).change(function(){
+				opts.page=1;
+				opts.clickEvent(opts.page,$(this).val());
+			});
 			//首页
 			$(".ui-pagination-FirstPage",obj).click(function(){
 				var page=parseInt($(".ui-pagination-Current",obj).html());
@@ -121,7 +134,7 @@
 					return;
 				}
 				opts.page=1;
-				opts.clickEvent(opts.page);
+				opts.clickEvent(opts.page,$(".ui-pageSizes",obj).val());
 			});
 			//上页
 			$(".ui-pagination-PrevPage",obj).click(function(){
@@ -130,7 +143,7 @@
 					return;
 				}
 				opts.page=page;
-				opts.clickEvent(opts.page);
+				opts.clickEvent(opts.page,$(".ui-pageSizes",obj).val());
 			});
 			//下一页
 			$(".ui-pagination-NextPage",obj).click(function(){
@@ -139,7 +152,7 @@
 					return;
 				}
 				opts.page=page;
-				opts.clickEvent(opts.page);
+				opts.clickEvent(opts.page,$(".ui-pageSizes",obj).val());
 			});
 			//末页
 			$(".ui-pagination-LastPage",obj).click(function(){
@@ -148,7 +161,7 @@
 					return;
 				}
 				opts.page=pageCount;
-				opts.clickEvent(opts.page);
+				opts.clickEvent(opts.page,$(".ui-pageSizes",obj).val());
 			});
 			//文本框enter
 			$(".ui-jumpNum",obj).keyup(function(e){
@@ -170,7 +183,7 @@
 					return;
 				}
 				opts.page=textPage;
-				opts.clickEvent(opts.page);
+				opts.clickEvent(opts.page,$(".ui-pageSizes",obj).val());
 				$(".ui-jumpNum",obj).focus();
 			});
 			//单击跳转
@@ -188,7 +201,7 @@
 					return;
 				}
 				opts.page=textPage;
-				opts.clickEvent(opts.page);
+				opts.clickEvent(opts.page,$(".ui-pageSizes",obj).val());
 				$(".ui-jumpNum",obj).focus();
 			});
 		});
