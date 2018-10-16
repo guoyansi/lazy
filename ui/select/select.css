@@ -3,8 +3,9 @@
 	background-color: white;
 	border:1px solid #eee;
 	font-size: 13px;
-	width: 150px;
+	/*width: 150px;*/
 	color: #525e7b;
+	box-shadow: 3px 3px 5px #8C8C8C;
 }
 .ui-select-slide-search-box{
 	width: 100%;

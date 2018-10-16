@@ -35,6 +35,10 @@
 		all:true,
 		search:false,
 		zIndex:102,
+		enableEmpty:true,
+		stop:function(){
+			console.log("停止选择");
+		},
 		list:[
 			{value:5,txt:"测试56",checked:true},
 			{value:6,txt:"测试6",checked:true},
@@ -57,7 +61,7 @@
 	
 	$("#select").ui_select();
 	function repeatUi(){
-		$("#select").ui_select();
+		$("#test1").ui_select();
 	}
 	function getRes(){
 		console.log($("#test2").ui_get_select("value"));
