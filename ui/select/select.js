@@ -11,34 +11,50 @@
 		searchStr?"":searchStr="";
 		var checked="";
 		var display="";
-		for(var i=0;i<len;i++){
+		var i=0;
+		if(obj.data("all")){
+			i=1;
+		}
+        var isAllStatus=true;//全选box状态
+		for(;i<len;i++){
 			display="";
+			if(list[i].txt.indexOf(searchStr)>-1){//显示
+                display="display:block";
+                if(!list[i].checked&&isAllStatus){
+                    isAllStatus=false;
+                }
+            }else{//隐藏
+                display="display:none";
+            }
 			if(list[i].checked){
 				checked="checked='checked'";				
 			}else{
 				checked="";
 			}
-			if(list[i].txt.indexOf(searchStr)>-1){//显示
-				display="display:block";			
-			}else{//隐藏
-				display="display:none";
-			}
+
 			html+="<p class='ui-select-slide-con-item' style='"+display+"'>";
 			html+="<input class='ui-select-slide-checkbox' type='checkbox' "+checked+" value='"+list[i].value+"' />"+list[i].txt;
 			html+="</p>";		
 		}
-		return html;
+        var allHtml="";
+        if(obj.data("all")){
+        	checked="";
+            if(isAllStatus){
+                checked="checked='checked'";
+            }
+            allHtml+="<p class='ui-select-slide-con-item'>";
+            allHtml+="<input class='ui-select-slide-checkbox' type='checkbox' "+checked+" value='"+list[0].value+"' />"+list[0].txt;
+            allHtml+="</p>";
+        }
+        return allHtml+html;
 	}
 	//单击选项
-	var clickOption=function(obj,targetValue){
-		/*if(!enableEmpty&&$(".ui-select-slide-checkbox:checked").length<=1){//不允许为空
-			return;
-		}*/
+	var clickOption=function(obj,targetValue,optsStop){
 		if(targetValue=="all"){//单击的是所有
 			if($(".ui-select-slide-checkbox[value='all']").is(":checked")){
-				$(".ui-select-slide-checkbox").prop("checked",true);
+				$(".ui-select-slide-con-item:visible").find(".ui-select-slide-checkbox").prop("checked",true);
 			}else{
-				$(".ui-select-slide-checkbox").prop("checked",false);
+                $(".ui-select-slide-con-item:visible").find(".ui-select-slide-checkbox").prop("checked",false);
 			}
 		}else{//单机的是其他
 			if($(".ui-select-slide-checkbox:not(:checked)").not("[value=all]").length>0){
@@ -49,19 +65,24 @@
 		}
 		changeList(obj);
 		inputConChange(obj);
+		stopMeth=optsStop;
+		obj.data("ischange",true);
 	};
 	//填充文本框
 	var inputConChange=function(obj){
 		var list=obj.data("list");
 		var txts=[];
 		var len=list.length;
-		if(list[0].value=="all"&&list[0].checked){
-			txts=[list[0].txt];
-		}else{
-			for(var i=0;i<len;i++){
-				if(list[i].checked){
-					txts.push(list[i].txt);
-				}
+        for(var i=0;i<len;i++){
+            if(list[i].checked){
+                txts.push(list[i].txt);
+            }
+        }
+        if(list[0].value=="all"&&list[0].checked){
+        	if(txts.length==len){
+                txts=[list[0].txt];
+			}else{
+        		txts.shift();
 			}
 		}
 		obj.val(txts.join(","));
@@ -69,7 +90,7 @@
 	//更新list
 	var changeList=function(obj){
 		var values=[];
-		$(".ui-select-slide-checkbox:checked").each(function(index){
+		$(".ui-select-slide-con-item:visible .ui-select-slide-checkbox:checked").each(function(index){
 			values.push($(this).val());
 		});
 		var list=obj.data("list");
@@ -87,7 +108,7 @@
 		obj.data("list",list);
 	};
 	
-	var slideHtml=function(obj,search,zIndex,enableEmpty){
+	var slideHtml=function(obj,search,zIndex,optsStop){
 		var offset=obj.offset();
 		var left=offset.left;
 		var top=offset.top;
@@ -104,19 +125,16 @@
 		html+="</div>";
 		html+="</div>";
 		$("body").append(html);
-		/*if($(".ui-select-slide-checkbox:not(:checked)").not("[value=all]").length==0){
-			$(".ui-select-slide-checkbox[value='all']").prop("checked",true);
-		}*/
-		$(".ui-select-slide-box").data("target",obj);
+		//$(".ui-select-slide-box").data("target",obj);
 		$(".ui-select-slide-box").click(function(e){
 			e.stopPropagation();
 		}).on("click",".ui-select-slide-con-item",function(){
 			var self=$(".ui-select-slide-checkbox",this);
 			var checked=self.prop("checked");
 			self.prop("checked",!checked);
-			clickOption(obj,self.val(),enableEmpty);
+			clickOption(obj,self.val(),optsStop);
 		}).on("click",".ui-select-slide-checkbox",function(e){
-			clickOption(obj,$(this).val(),enableEmpty);
+			clickOption(obj,$(this).val(),optsStop);
 			e.stopPropagation();
 		});
 		$(".ui-select-slide-search").keyup(function(){
@@ -132,31 +150,6 @@
 		//$(".ui-select-slide-box").remove();
 		stopChecked();
 	});
-	$.fn.ui_get_select=function(type){
-		var list=this.data("list");
-		var len=list.length;
-		var isAll=false;
-		var i=0;
-		if(list[0].value=="all"&&list[0].checked){
-			isAll=true;
-			i=1;
-		}
-		var res=[];
-		for(;i<len;i++){
-			if(!list[i].checked){
-				continue;
-			}
-			if(type=="value"){
-				res.push(list[i].value);
-			}else if(type=="txt"){
-				res.push(list[i].txt);
-			}else{
-				res.push([list[i].value,list[i].txt]);
-			}
-		
-		}
-		return {isAll:isAll,data:res};
-	};
 	//如果是select标签
 	var ifSelectTag=function(obj,all){
 		var list=[];
@@ -199,7 +192,9 @@
 			search:true,//是否有搜索框
 			zIndex:100,
 			enableEmpty:false,//是否允许为空
-			start:function(){},
+			start:function(list,callback){
+				callback();
+			},
 			checked:function(){//选中回调
 				
 			},
@@ -208,6 +203,7 @@
 			},
 			list:[{value:1,txt:"默认选中",checked:true},{value:2,txt:"测试2"},{value:3,txt:"测试3"},{value:4,txt:"测试4"}]
 		};
+		var timer=null;
 		return this.each(function(index){
 			var obj=$(this);
 			var tagName=obj[0].tagName.toLowerCase();
@@ -215,6 +211,7 @@
 			if(opts.all){
 				opts.list.unshift(startAllEmentChecked(opts.list));
 			}
+			obj.data("all",opts.all);
 			if(!obj.data("list")){
 				obj.css({"padding-right":"25px","width":(obj.outerWidth()-20)+"px"});
 			}
@@ -246,10 +243,88 @@
 			obj.data("clickEvent",true);
 			obj.click(function(e){
 				$(".ui-select-slide-box").remove();
-				stopMeth=opts.stop;
-				slideHtml($(this),opts.search,opts.zIndex,opts.enableEmpty);
+                $(".ui-select-slide-display-box").remove();
+				stopMeth=function(){};
+				opts.start(obj,function () {
+                    slideHtml(obj,opts.search,opts.zIndex,opts.stop);
+                });
 				e.stopPropagation();
-			});
+			}).mouseenter(function () {
+				if($(".ui-select-slide-box").length!=0){
+					return;
+				}
+				clearTimeout(timer);
+				if($(".ui-select-slide-display-box").length!=0){
+					return;
+				}
+                var offset=obj.offset();
+                var left=offset.left;
+                var top=offset.top;
+                var h=obj.outerHeight();
+                var html="";
+                html+="<div class='ui-select-slide-display-box' style='left:"+left+"px;top:"+(top+h+1)+"px;z-index:"+opts.zIndex+";width:"+obj.outerWidth()+"px'>";
+                html+="<div class='ui-select-slide-con-display-box'>";
+                var list=obj.data("list");
+                var len=list.length;
+                html+="<p class='ui-select-slide-con-display-checked-item'>已选内容</p>";
+                for(var i=0;i<len;i++){
+                	if(list[i].checked&&list[i].value!="all"){
+                        html+="<p class='ui-select-slide-con-display-item'>"+list[i].txt+"</p>";
+					}
+				}
+                html+="</div>";
+                html+="</div>";
+                $("body").append(html);
+                $(".ui-select-slide-display-box").mouseenter(function () {
+					clearTimeout(timer);
+                }).mouseleave(function () {
+                    timer=setTimeout(function () {
+                        $(".ui-select-slide-display-box").remove();
+                    },100);
+                });
+            }).mouseleave(function () {
+            	timer=setTimeout(function () {
+                    $(".ui-select-slide-display-box").remove();
+                },100);
+            });
 		});
 	};
+    $.fn.ui_get_select=function(type){
+        var list=this.data("list");
+        var len=list.length;
+        var isAll=false;
+        var i=0;
+        if(list[0].value=="all"&&list[0].checked){
+            isAll=true;
+            i=1;
+        }
+        var res=[];
+        for(;i<len;i++){
+            if(!list[i].checked){
+                continue;
+            }
+            if(type=="value"){
+                res.push(list[i].value);
+            }else if(type=="txt"){
+                res.push(list[i].txt);
+            }else{
+                res.push([list[i].value,list[i].txt]);
+            }
+
+        }
+        return {isAll:isAll,data:res};
+    };
+    $.fn.ui_setList=function (list) {
+    	if($(this).data("all")==true){
+            list.unshift(startAllEmentChecked(list));
+		}
+		$(this).data("list",list);
+    };
+    $.fn.ui_isChage=function (v) {
+    	if(v!=undefined){
+            $(this).data("ischange",v);
+		}else{
+            return $(this).data("ischange");
+		}
+    }
 })(jQuery);

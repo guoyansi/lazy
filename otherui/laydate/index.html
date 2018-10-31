@@ -26,6 +26,7 @@
     <input type="text" class="demo-input" placeholder="墨绿主题" id="test29">
     <input type="text" class="demo-input" placeholder="自定义颜色" id="test30">
     <input type="text" class="demo-input" placeholder="格子主题" id="test31">
+    <input type="text" class="demo-input" placeholder="回调" id="test32">
 
 	</body>
 </html>
@@ -106,6 +107,10 @@
       elem: '#test31'
       ,theme: 'grid'
     });
-	
-	
+	laydate.render({
+      elem: '#test32', //指定元素
+      done: function(value, date){
+	    alert('你选择的日期是：' + value + '\n获得的对象是' + JSON.stringify(date));
+	  }
+    });
 </script>
