@@ -159,7 +159,9 @@
 		var selected=false;
 		$("option",obj).each(function(){
 			var self=$(this);
-			list.push({value:self.val(),txt:self.html(),checked:self.attr("selected")?true:false});
+			console.log(self.html()+";"+self.attr("checked"));
+			//console.log(self.is(":checked"));
+			list.push({value:self.val(),txt:self.html(),checked:self.attr("checked")?true:false});
 		});
 		var clsName=obj.attr("class");
 		var idName=obj.attr("id");

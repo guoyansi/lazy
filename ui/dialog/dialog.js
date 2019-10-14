@@ -55,7 +55,7 @@
 		var currentType=typs[opts.type]?typs[opts.type]:typs["d"];
 		var styles="";
 		if(opts.width){
-			styles='width:'+opts.width+"px;";
+			styles='width:'+getSize(opts.width)+";";
 		}else{
 			styles='min-width:200px;max-width:550px;';
 		}
@@ -76,6 +76,20 @@
 			$("#ui-dialog-Focus").focus();
 		}
 	};
+	
+	function getSize(value){
+		if(!value){
+			return "auto";
+		}
+		if(isNaN(value)&&value.indexOf("%")>-1){
+			return value;
+		}
+		if(!isNaN(value)){
+			return value+"px";
+		}
+		return "auto";
+	}
+	
 	//编辑框
 	$.fn.ui_dg=$.fn.ui_dialog = function(opts) {
 		$("#testFocus").focus();
@@ -100,10 +114,16 @@
 				var zIndex = getLastDialogZindex();
 				var obj = $(this).addClass("ui-dialog ui-dialog-center").css("z-index", zIndex + 2).attr("type", "edit");
 				var type = obj.attr("type");
-				var objHeight = obj.attr("height");//.height();
-				var objWidth=obj.attr("width");
-				var maxHeight=obj.attr("max-height");
-				var minHeight=obj.attr("min-height");
+				var objHeight =getSize(obj.attr("height"));//.height();
+				if(objHeight.indexOf("%")>-1){
+					obj.css("height",objHeight);
+				}
+				var objWidth=getSize(obj.attr("width"));
+				if(objWidth.indexOf("%")>-1){
+					obj.css("width",objWidth);
+				}
+				var maxHeight=getSize(obj.attr("max-height"));
+				var minHeight=getSize(obj.attr("min-height"));
 				var objBody = null;
 				if ($(".ui-dialog-body", obj).length > 0) { //已经包装好的弹出框,再次打开
 
@@ -118,10 +138,6 @@
 				}
 				obj.prepend(getHtmlHead(opts.title,opts.draggle,opts.closeBtn)+focusInput());
 				obj.append(getHtmlFooter(opts.btn));
-				objHeight=objHeight?objHeight+"px":"auto";
-				objWidth=objWidth?objWidth+"px":"auto";
-				maxHeight=maxHeight?maxHeight+"px":"auto";
-				minHeight=minHeight?minHeight+"px":"auto";
 				$(".ui-dialog-edit-scroll", obj).css({height:objHeight,width:objWidth,"max-height":maxHeight,"min-height":minHeight});  //.height(objHeight).width(objWidth);//.width(opts.width);
 				btnClickEvent(obj, opts.btn,opts.closeCallback);
 				$("body").append(setHtmlShade(zIndex,opts.opacity));
@@ -160,6 +176,7 @@
 			var objWin = $(window);
 			var winW=objWin.width();
 			var winH=objWin.height();
+			console.log(winH);
 			var scrollTop=$(document).scrollTop();
 			var scrollLeft=$(document).scrollLeft();
 			nowLeft = e.clientX-scrollLeft - pointW;

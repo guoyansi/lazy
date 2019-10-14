@@ -61,6 +61,11 @@ bg.ajax=function(opts){
         }
     });
 };
+bg.ajaxForm=function(opts){
+    var origin={processData: false,contentType: false};
+    opts=$.extend(origin,opts);
+    bg.ajax(opts);
+};
 /***************************ajax拦截********************************/
 
 /**

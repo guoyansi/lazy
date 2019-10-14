@@ -3,7 +3,8 @@
 		num:10,	//页码个数
 		count:102, //总数
 		size:10, //每页展示条数
-		sizes:[10,20,30],
+		//sizes:[10,20,30],
+		sizes:[],
 		pos:"c",//l,r,c
 		//hiddenPosition:7,
 		page:1,	//当前页
@@ -39,15 +40,18 @@
 		}else{
 			html+="<div class='ui-pagination ui-pagination-position-center'>";
 		}
-		html+="<select class='ui-pageSizes'>";
-		for(var k=0;k<opts.sizes.length;k++){
-			if(opts.size==opts.sizes[k]){
-				html+="<option value="+opts.sizes[k]+" selected='selected'>"+opts.sizes[k]+"</option>";
-			}else{
-				html+="<option value="+opts.sizes[k]+">"+opts.sizes[k]+"</option>";				
+		if(opts.sizes.length!=0){
+			html+="<select class='ui-pageSizes'>";
+			for(var k=0;k<opts.sizes.length;k++){
+				if(opts.size==opts.sizes[k]){
+					html+="<option value="+opts.sizes[k]+" selected='selected'>"+opts.sizes[k]+"</option>";
+				}else{
+					html+="<option value="+opts.sizes[k]+">"+opts.sizes[k]+"</option>";				
+				}
 			}
+			html+="</select>";
 		}
-		html+="</select>";
+		
 		//html+="<span class='ui-pagination-text'>共"+opts.count+"条记录 ,"+pageCount+"页</span>";
 		html+="<a class='ui-pagination-FirstPage'><label>首页</label></a>";
 			html+="<a class='ui-pagination-PrevPage'>上页</a>";
@@ -106,11 +110,26 @@
 	}
 	$.fn.ui_pn=$.fn.ui_pagination=function(opts){
 		opts=$.extend({},defaults,opts);
-		if(opts.count==0){
-			opts.count=1;
-		}
 		this.each(function(){
 			var obj=$(this).addClass("ui-pagination-box");
+			var  page=obj.attr("page");
+			var count=obj.attr("count");
+			if(page){
+				opts.page=page;
+			}
+			if(count){
+				opts.count=count;
+			}
+			opts.page=parseInt(opts.page);
+			opts.count=parseInt(opts.count);
+			opts.num=parseInt(opts.num);
+			opts.size=parseInt(opts.size);
+			
+			if(opts.count==0){
+				opts.count=1;
+			}
+			
+			
 			var pageCount=Math.ceil(opts.count/opts.size);//总页数
 			resetHtml(opts,obj);
 			//单击页码

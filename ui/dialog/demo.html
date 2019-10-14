@@ -21,10 +21,22 @@
 			<input type="button" value="弹出失败提示框" onclick="errorDialog()" />
 			<input type="button" value="弹出警告提示框" onclick="waringDialog()" />
 			<input type="button" value="弹出编辑提示框" onclick="editDialog()" >
+			<input type="button" value="弹出100%编辑提示框" onclick="editDialog001()" >
 			<input type="button" value="不带尺寸的弹出框,自适应" onclick="noSizeDialog()" >
 		</div>
 		
 		<div class="guoyansi" width=500 max-height=400 style="display: none;"><!--height=400-->
+			 <p style="height: 200px; width: 100%; background-color: #3071A9;">855</p>
+			 <p style="height: 200px; width: 100%; background-color: red;">855</p>
+			 <p style="height: 200px; width: 100%; background-color: #3071A9;">855</p>
+			 <p style="height: 200px; width: 100%; background-color: blue;">855</p>
+			 <p style="height: 200px; width: 100%; background-color: #3071A9;">855</p>
+			 <p style="height: 200px; width: 100%; background-color: yellow;">855</p>
+			 <p style="height: 200px; width: 100%; background-color: #3071A9;">858988</p>
+		 </div>
+		 
+		 <!--百分百宽度-->
+		 <div class="guoyansiW001" width="100%" height="100%" style="display: none;"><!--height=400-->
 			 <p style="height: 200px; width: 100%; background-color: #3071A9;">855</p>
 			 <p style="height: 200px; width: 100%; background-color: red;">855</p>
 			 <p style="height: 200px; width: 100%; background-color: #3071A9;">855</p>
@@ -93,14 +105,24 @@
 				 title:"标题",
 				 draggle:true,//是否允许头部拖拽				 
 				 btn:[
-					 {name:"确定",action:function(par){alert(par.id)}},
+					 {name:"确定",action:function(){}},
 					 {name:"返回",action:function(){},btnClass:"ui-input-yellow-button"},
 					 {name:"取消",action:function(){$.ui_dialogClose("a")}}
 				 	]
 				 });
 		}
 		
-		
+		function editDialog001(){
+			$(".guoyansiW001").ui_dialog({
+				 title:"标题",
+				 draggle:true,//是否允许头部拖拽				 
+				 btn:[
+					 {name:"确定",action:function(){}},
+					 {name:"返回",action:function(){},btnClass:"ui-input-yellow-button"},
+					 {name:"取消",action:function(){$.ui_dialogClose("a")}}
+				 	]
+				 });
+		}
 function defaultBtn(){
 	$.ui_dialog({
 		title:"标题",
