@@ -119,6 +119,78 @@ bg.checkAjaxRes=function (data,successCallback,errorCallback) {
 
 /***************************ajax拦截********************************/
 
+
+/**
+ * 
+ * bg.upload(baseUrl+"/goods/uploadFjDetail",{fjId:fjid},function (data) {
+        console.log(data);
+        if(data.status==1){
+          
+        }else{
+            alert("上传失败！");
+        }
+    })
+ * 
+ * 
+ *  @ResponseBody
+	@RequestMapping("/uploadFjDetail")
+	public HttpResult uploadFjDetail(@RequestParam("file") MultipartFile file,Long fjId)throws Exception{
+	     return service.uploadFjDetail(file,fjId,sort);
+	}
+ * @param {Object} url
+ * @param {Object} jsonData
+ * @param {Object} successCallback
+ * @param {Object} errorCallback
+ * @param {Object} completeCallback
+ */
+bg.upload=function(url,jsonData,successCallback,errorCallback,completeCallback){
+    $.ui_load({
+        icon:1,
+        msg:"上传中..."
+    });
+    if(jsonData==null){
+        jsonData={};
+    }
+    //$("#"+id).click();
+    var objectInput=$('<input id="fileuploadId" type="file" name="file" style="display: none">');
+    $("body").append(objectInput);
+    objectInput.click();
+    objectInput.change(function () {
+        var formData = new FormData();
+        formData.append("file", document.getElementById("fileuploadId").files[0]);
+        for(var k in jsonData){
+            formData.append(k,jsonData[k]);
+        }
+        $.ajax({
+            url:url,
+            type: "POST",
+            data: formData,
+            /**
+             *必须false才会自动加上正确的Content-Type
+             */
+            contentType: false,
+            /**
+             * 必须false才会避开jQuery对 formdata 的默认处理
+             * XMLHttpRequest会对 formdata 进行正确的处理
+             */
+            processData: false,
+            success:function (data) {
+                successCallback(data);
+            },
+            error: function () {
+                typeof errorCallback=="function"?errorCallback():alert("上传失败！");
+            },
+            complete:function () {
+                objectInput.remove();
+                $.ui_load_close();
+                typeof completeCallback=="function"?completeCallback():"";
+            }
+        });
+    });
+
+};
+
+
 /**
  * 将list装换成tree
  * @param {Object} myId  数据主键id
