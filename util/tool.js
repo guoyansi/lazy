@@ -119,7 +119,6 @@ bg.checkAjaxRes=function (data,successCallback,errorCallback) {
 
 /***************************ajax拦截********************************/
 
-
 /**
  * 
  * bg.upload(baseUrl+"/goods/uploadFjDetail",{fjId:fjid},function (data) {
