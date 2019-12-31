@@ -61,11 +61,62 @@ bg.ajax=function(opts){
         }
     });
 };
+
+/**
+ * var dom=$("#dialogForm")[0];
+   var fd=new FormData(dom);
+   bg.ajaxForm({
+        url: "",
+        type: "POST",
+        data: fd,
+        success:function (data) {
+            bg.checkAjaxRes(data,function () {
+                window.location.href=baseUrl+"/project/yangchenpage?projectId="+data.res;
+            });
+        }
+    });
+ */
 bg.ajaxForm=function(opts){
     var origin={processData: false,contentType: false};
     opts=$.extend(origin,opts);
     bg.ajax(opts);
 };
+
+/**
+ * var dom=$("#dialogForm")[0];
+   var fd=new FormData(dom);
+   bg.ajaxForm({
+        url: "",
+        type: "POST",
+        data: fd,
+        success:function (data) {
+            bg.checkAjaxRes(data,function () {
+                window.location.href=baseUrl+"/project/yangchenpage?projectId="+data.res;
+            });
+        }
+    });
+ */
+bg.checkAjaxRes=function (data,successCallback,errorCallback) {
+    if(data.status==1){
+        $.ui_dg({
+            type:"s",
+            con:data.msg,
+            btn:[{name:"确定",action:function () {
+                if(successCallback){
+                    successCallback();
+                }else{
+                    window.location.reload(true);
+                }
+            }}]
+        });
+    }else{
+        $.ui_dg({
+            type:"e",
+            con:data.msg
+        });
+    }
+};
+
 /***************************ajax拦截********************************/
 
 /**
