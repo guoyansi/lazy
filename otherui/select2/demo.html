@@ -10,13 +10,22 @@
 		
 	</head>
 	<body>
-		<select id="select" style="width: 100px;">
-			<option>aaa</option>
-			<option>bbb</option>
-			<option>cc</option>
+		<select id="select" style="width: 100px;" onchange="changeSelect()">
+			<option value="a">aaa</option>
+			<option value="b">bbb</option>
+			<option value="c">cc</option>
+			<option value="ab">abc</option>
+			<option value="1">安徽</option>
+			<option value="2">武汉</option>
+			<option value="3">abc</option>
+			<option value="4">abc</option>
 		</select>
 	</body>
 	<script type="text/javascript">
 		$("#select").select2();
+		
+		function changeSelect(){
+			alert($("#select").val());
+		}
 	</script>
 </html>
