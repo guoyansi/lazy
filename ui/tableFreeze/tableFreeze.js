@@ -1,173 +1,293 @@
 (function($){
-	//冻结表头
-	var headHtml=function(obj){
-		var tableHtml=obj.children("table").prop("outerHTML");
-		var oldHead=obj.children("table").find("thead")
-		var h=oldHead.height();
-		var newHtml="<div class='ui-table-freezehead'>"+tableHtml+"</div>";
-		var newObj=$(newHtml);
-		obj.append(newObj);
-		newObj.css({"position":"absolute","z-index":"1","top":"0","left":0,"height":h+"px","overflow":"hidden"});
-		var headBjColor=oldHead.css("background-color");
-		headBjColor=="rgba(0, 0, 0, 0)"?newObj.css("background-color","white"):newObj.css("background-color",headBjColor);
-	};
-	//冻结列
-	var frezeColumnHtml=function(obj,targetIndex){
-		var tableHtml=obj.children("table").prop("outerHTML");
-		var lastTrForThInHead=obj.children("table").children("thead").children("tr").find("th");
-		var targetColumn=lastTrForThInHead.eq(targetIndex);
-		var w=targetColumn.outerWidth()+1;
-		var offsetLeft=0;
-		lastTrForThInHead.each(function(index){
-			if(index<targetIndex){
-				offsetLeft+=$(this).outerWidth(true);
-			}else{
-				return false;
-			}
-		});
-		var positionLeft=offsetLeft;
-		var freezeCloumnId="freezeColumn"+new Date().getTime();
-		var newHtml="<div id='c_"+freezeCloumnId+"' class='ui-table-freezeColumn' style='position:absolute;z-index:2;top:0;width:"+w+"px;overflow:hidden;left:"+positionLeft+"px;background-color:white;box-shadow:-1px 0 8px rgba(0,0,0,0.3);'>"+tableHtml+"</div>";
-		var newObj=$(newHtml);
-		newObj.children("table").css("margin-left","-"+offsetLeft+"px");//.find("thead").css("visibility","hidden");
-		obj.append(newObj);
-		newObj.data("rlativeLeft",positionLeft-obj.scrollLeft());
-		
-		var h=targetColumn.outerHeight();
-		//冻结列表头
-		var newHeadHtml="<div id='h_"+freezeCloumnId+"' class='ui-table-freezeColumn-head' style='position:absolute;z-index:3;top:"+obj.scrollTop()+"px;height:"+h+"px;width:"+w+"px;overflow:hidden;left:"+offsetLeft+"px;background-color:white;'>";
-		newHeadHtml+="<span id='close_btn_"+freezeCloumnId+"' v='"+freezeCloumnId+"' targetIndex='"+targetIndex+"' class='ui-table-freezeCloumn-head-close'>x</span>";
-		 newHeadHtml+=tableHtml;
-		 newHeadHtml+="</div>";
-		var newHeadObj=$(newHeadHtml);
-		newHeadObj.children("table").css("margin-left","-"+offsetLeft+"px");
-		//$("tbody",newHeadObj).remove();
-		obj.append(newHeadObj);
-		newHeadObj.data("rlativeLeft",positionLeft-obj.scrollLeft());
-		
-		
-		$("#close_btn_"+freezeCloumnId).click(function(){
-			var v=$(this).attr("v");
-			var targetIndex=$(this).attr("targetIndex");
-			$("#h_"+v).remove();
-			$("#c_"+v).remove();
-			$("thead",obj).each(function(){
-                $("th",this).eq(targetIndex).removeAttr("freeze");
-            });
-		});
-	};
-	//表头是否允许冻结
-	var isHeadFreeze=function(obj){
-		if(obj.height()>obj.children("table").height()){
-			return false;
+	$.fn.ui_freeze=function(freeze){
+		if(freeze==="clear"){
+			var elIndex=this.data("elIndex");
+			$(".js-freeze-div-"+elIndex).remove();
+			return this;
+		}else if(freeze=="reset"){
+			var elIndex=this.data("elIndex");
+			$(".js-freeze-div-"+elIndex).remove();
+			makeFreeze($(this),this.data("freeze"),elIndex);
+			return this;
+		}else if(!freeze instanceof Array){
+			throw new Error("参数有误");
+			return;
 		}
-		return true;
-	};
-	var isColumnFreeze=function(obj){
-		if(obj.width()>obj.children("table").width()){
-			return false;
-		}
-		return true;
-	};
-	var checkFreeze=function(obj){
-		var res=true;
-		$("th,td",obj).each(function(){
-			if($(this).attr("rowspan")||$(this).attr("colspan")){
-				res=false;
-				return false;
-			}
-		});
-		return res;
-	};
-	
-	$.fn.ui_table=function(opts){
-		var defaults={
-			
-		};
-		
-		this.each(function(){
-			var obj=$(this);
-			obj.children("table").css("width","100%").find("th").css({"white-space":"nowrap","overflow":"hidden"});
-			obj.css({"position":"relative","overflow":"auto"});
-			//满足表头冻结的条件
-			if(isHeadFreeze(obj)){
-				headHtml(obj);				
-			}
-            //无法执行冻结操作
-            if(!checkFreeze(obj)){
-                return;
-            }
-			//满足列冻结的条件
-			if(!isColumnFreeze(obj)){
-				return;
-			}
-            var timer=null;
-            $("th",obj).bind("contextmenu", function(){
-                return false;
-            }).mousedown(function(e) {
-                if (e.which!=3) {
-                    return;
-                }
-                var targetIndex=$(this).index();
-                if($(this).attr("freeze")=="1"){
-                    return;
-                }
-                $(".ui-table-rightclick-box").remove();
-                var html='';
-                html+="<div class='ui-table-rightclick-box' style='left:"+(e.pageX-35)+"px;top:"+e.pageY+"px'>";
-                html+="<div class='ui-table-rightclick-top'></div>";
-                html+="<div class='ui-table-rightclick-box-div'>";
-                html+="<p class='ui-table-rightclick-box-item'>冻结列</p>";
-                /*html+="<p class='ui-table-rightclick-box-item'>升序</p>";
-                html+="<p class='ui-table-rightclick-box-item'>降序</p>";*/
-                html+="</div>";
-                html+="</div>";
-
-                setTimeout(function(){
-                    $("body").append(html);
-                    $(".ui-table-rightclick-box").mouseover(function(){
-                        clearTimeout(timer);
-                    }).mouseleave(function(){
-                        var self=$(this);
-                        timer=setTimeout(function(){
-                            self.remove();
-                        },200)
-                    });
-                    $(".ui-table-rightclick-box-item").click(function(){
-                        $(".ui-table-rightclick-box").remove();
-                        frezeColumnHtml(obj,targetIndex);
-                        $("thead",obj).each(function(index){
-                            $("th",this).eq(targetIndex).attr("freeze","1");
-                        });
-                    });
-                },200);
-            }).mouseleave(function(){
-                timer=setTimeout(function(){
-                    $(".ui-table-rightclick-box").remove();
-                },200);
-            }).mouseover(function(){
-                clearTimeout(timer);
-            });
-
-
+		return this.each(function(elIndex){
+			var obj=$(this).css({overflow:"auto"}).data("elIndex",elIndex).data("freeze",freeze);
+			makeFreeze(obj,freeze,elIndex,0,0);
+			var sl=0,st=0;
 			obj.scroll(function(){
-				var top=obj.scrollTop();
-				var left=0;
-				//冻结表头
-				$(".ui-table-freezehead",obj).css("top",top+"px");
-				//冻结列表头
-				var columnHead=$(".ui-table-freezeColumn-head",obj);
-				columnHead.css("top",top+"px");
-				$(".ui-table-freezeColumn",obj).each(function(){
-					left=obj.scrollLeft()+$(this).data("rlativeLeft");	
-					$(this).css("left",left+"px");
-				});
-				$(".ui-table-freezeColumn-head",obj).each(function(){
-					left=obj.scrollLeft()+$(this).data("rlativeLeft");	
-					$(this).css("left",left+"px");
-					$(this).css("top",top+"px");
-				});
+				sl=$(this).scrollLeft();
+				st=$(this).scrollTop();
+				$(".js-freeze-top-div-"+elIndex).scrollLeft(sl);
+				$(".js-freeze-left-div-"+elIndex).scrollTop(st);
 			});
 		});
 	}
+	
+	function makeFreeze(obj,freeze,elIndex){
+		var boxAttr=getBoxAttr(obj);
+		var objTable=$("table",obj);
+		objTable.width(boxAttr.tableW).height(boxAttr.tableH);
+		var bgcolor=obj.css("backgroundColor");
+		//bgcolor="red";
+		var groupFreeze=freeze.map(function(el){
+			if(el!=0){
+				return "X";
+			}
+			return el;
+		}).join("");
+		if(groupFreeze==="X000"){//冻结top
+			//objTable=$("table",obj);
+			groupX000(obj,objTable,freeze[0],bgcolor,elIndex,boxAttr);
+		}else if(groupFreeze==="000X"){//冻结left
+			//objTable=objTable==null?$("table",obj):objTable;
+			group000X(obj,objTable,freeze[3],bgcolor,elIndex,boxAttr);
+		}else if(groupFreeze==="X00X"){//冻结top和left
+			//objTable=objTable==null?$("table",obj):objTable;
+			groupX00X(obj,objTable,freeze[0],freeze[3],bgcolor,elIndex,boxAttr);
+		}else{
+			throw new Error("暂时还不支持的冻结方式")
+		}
+	}
+	
+	
+	/*function setTableSize(obj){
+		return $("table",obj).width();
+	}
+	function setTableSize(obj){
+		return $("table",obj).width();
+	}*/
+	
+	//冻结top
+	function groupX000(obj,objTable,rows,bgcolor,elIndex,boxAttr){
+		cloneTableTop(obj,objTable,rows,bgcolor,elIndex,boxAttr);
+	}
+	
+	//冻结left
+	function group000X(obj,objTable,columns,bgcolor,elIndex,boxAttr){
+		cloneTableLeft(obj,objTable,columns,bgcolor,elIndex,boxAttr);
+	}
+	
+	//冻结top,left
+	function groupX00X(obj,objTable,rows,columns,bgcolor,elIndex,boxAttr){
+		var h=cloneTableTop(obj,objTable,rows,bgcolor,elIndex,boxAttr);
+		var w=cloneTableLeft(obj,objTable,columns,bgcolor,elIndex,boxAttr);
+		cloneTableTopLeft(obj,objTable,w,h,bgcolor,elIndex,boxAttr);
+	}
+	
+	
+	//克隆top
+	function cloneTableTop(obj,objTable,rows,bgcolor,elIndex,boxAttr){
+		var height=0;
+		var tdJson={};
+		$("tr",objTable).each(function(index){
+			if(index+1>rows){
+				return true;
+			}
+			$("td",this).each(function(index2){
+				var rowspan=$(this).attr("rowspan");
+				rowspan=rowspan?Number(rowspan):1;
+				if(tdJson[index2]){
+					tdJson[index2].push(rowspan);
+				}else{
+					tdJson[index2]=[rowspan];
+				}
+			});
+		});
+		
+		var res=true;
+		var rightColumn=0;//合适的列
+		for(var k in tdJson){
+			res=tdJson[k].every(function(v){
+				return v==1;
+			});
+			if(res){
+				rightColumn=k;
+				break;
+			}
+		}
+		
+		
+		var objTr=$("tr",objTable);
+		for(var i=0;i<rows;i++){
+			height+=objTr.eq(i).find("td").eq(rightColumn).outerHeight();
+		}
+		height++;
+		var jsonCss={
+			overflow:"hidden",
+			width:(boxAttr.boxW-boxAttr.scrollW)+"px",
+			height:height+"px",
+			position:"absolute",
+			top:boxAttr.top+"px",
+			left:boxAttr.left+"px",
+			backgroundColor:bgcolor
+		};
+		var objDiv=$("<div class='js-freeze-div-"+elIndex+" js-freeze-top-div-"+elIndex+"'></div>");
+		objDiv.append(objTable.prop("outerHTML"));
+		objDiv.css(jsonCss);
+		$("body").append(objDiv);
+		
+		objDiv.scrollLeft(boxAttr.scrollLeft);
+		return height;
+	}
+	
+	function cloneTableRight(obj,objTable,columns){
+		throw new Error("暂未开发右侧冻结")
+	}
+	
+	function cloneTableBottom(obj,objTable,rows){
+		throw new Error("暂未开发底部冻结")
+	}
+	
+	//克隆left
+	function cloneTableLeft(obj,objTable,columns,bgcolor,elIndex,boxAttr,scrollTop){
+		var colspan;
+		var totalColspan=0;
+		var objTr=null;
+		$("tr",objTable).each(function(index){
+			totalColspan=0;
+			$("td",this).each(function(index2){
+				var colspan=$(this).attr("colspan");
+				if(!colspan){
+					colspan=1;
+				}
+				if(index2+1>columns&&totalColspan==columns){
+					objTr=$("tr",objTable).eq(index-1);
+					return true;
+				}
+				totalColspan+=Number(colspan);
+			});
+			if(objTr!=null){
+				return true;
+			}
+		});
+		if(objTr==null){
+			throw new Error("左冻结列数大于总列数，无法冻结。")
+			return 0;
+		}
+		var width=0;
+		for(var i=0;i<columns;i++){
+			width+=$("td",objTr).eq(i).outerWidth();
+		}
+		width++;
+		var jsonCss={
+			overflow:"hidden",
+			width:width+"px",
+			height:(boxAttr.boxH-boxAttr.scrollH)+"px",
+			position:"absolute",
+			top:boxAttr.top+"px",
+			left:boxAttr.left+"px",
+			backgroundColor:bgcolor
+		};
+		var objDiv=$("<div class='js-freeze-div-"+elIndex+" js-freeze-left-div-"+elIndex+"'></div>");
+		objDiv.append(objTable.prop("outerHTML"));
+		objDiv.css(jsonCss);
+		$("body").append(objDiv);
+		objDiv.scrollTop(boxAttr.scrollTop);
+		return width;
+	}
+	//克隆左上角
+	function cloneTableTopLeft(obj,objTable,w,h,bgcolor,elIndex,boxAttr){
+		var jsonCss={
+			overflow:"hidden",
+			width:w+"px",
+			height:h+"px",
+			position:"absolute",
+			top:boxAttr.top+"px",
+			left:boxAttr.left+"px",
+			backgroundColor:bgcolor
+		};
+		var objDiv=$("<div class='js-freeze-div-"+elIndex+" js-freeze-left-top-div-"+elIndex+"'></div>");
+		objDiv.append(objTable.prop("outerHTML"));
+		objDiv.css(jsonCss);
+		$("body").append(objDiv);
+	}
+	
+	/*function setCloneTdSize(cloneDivObj,tdJsonSize){
+		$("table tr",cloneDivObj).each(function(index){
+			$("td",this).each(function(index2){
+				$(this).width(tdJsonSize[index+"-"+index2].w).height(tdJsonSize[index+"-"+index2].h);
+			});
+		});
+	}*/
+	
+	function getBoxAttr(obj){
+		var offset=obj.offset();
+		var left=offset.left;
+		var top=offset.top;
+		var scrollLeft=$(window).scrollLeft();
+		var scrollTop=$(window).scrollTop();
+		var boxW=obj.width();
+		var boxH=obj.height();
+		var objTable=obj.find("table");
+		var tableW=objTable.width();
+		var tableH=objTable.height();
+		
+		var scrollCurrentLeft=obj.scrollLeft();//滚动条当前位置
+		var scrollCurrentTop=obj.scrollTop();//滚动条当前位置
+		
+		obj.scrollLeft(10000000000).scrollTop(10000000000);//临时设置到最大
+		var xScroll=true;
+		var yScroll=true;
+		var scrollFactLeft=obj.scrollLeft();//滚动条实际最大值
+		var scrollFactTop=obj.scrollTop();//滚动条实际最大值
+		var conW=objTable.outerWidth(true);//实际内容宽度
+		var conH=objTable.outerHeight(true);//实际内容高度
+		var scrollW=Math.abs(conW-boxW-scrollFactLeft);//滚动条本身宽度
+		var scrollH=Math.abs(conH-boxH-scrollFactTop);//滚动条本身高度
+		obj.scrollLeft(scrollCurrentLeft).scrollTop(scrollCurrentTop);//恢复位置
+		
+		return {left:scrollLeft+left,top:scrollTop+top,boxW:boxW,boxH:boxH,tableW:tableW,tableH:tableH,scrollW:scrollW,scrollH:scrollH,scrollLeft:scrollCurrentLeft,scrollTop:scrollCurrentTop};
+		
+	}
+	
+	function checkAndGetParam(opts){
+		var jsonCss={"-webkit-overflow-scrolling":"touch;"};
+		jsonCss.position="absolute";
+		jsonCss.overflow="auto";
+		if(isTrue(opts.top)){
+			jsonCss.top=isContain(opts.top,"%")?opts.top:opts.top+"px";
+		}
+		if(isTrue(opts.left)){
+			jsonCss.left=isContain(opts.left,"%")?opts.left:opts.left+"px";
+		}
+		if(isTrue(opts.right)){
+			jsonCss.right=isContain(opts.right,"%")?opts.right:opts.right+"px";
+		}
+		if(isTrue(opts.bottom)){
+			jsonCss.bottom=isContain(opts.bottom,"%")?opts.bottom:opts.bottom+"px";
+		}
+		if(isTrue(opts.width)){
+			jsonCss.width=isContain(opts.width,"%")?opts.width:opts.width+"px";
+		}
+		if(isTrue(opts.height)){
+			jsonCss.height=isContain(opts.height,"%")?opts.height:opts.height+"px";
+		}
+		jsonCss.zIndex=opts.zIndex;
+		
+		return jsonCss;
+	}
+	function isContain(str,word){
+		return (str+"").indexOf(word)>-1?true:false;
+	}
+	
+	function isTrue(v){
+		 return (v+"").length!=0?true:false;
+	}
+	function isString(v){
+		if(typeof(v)=="string"){
+			return true;
+		}
+		return false;
+	}
+	
+	function isJson(v){
+		return typeof(v) == "object" && Object.prototype.toString.call(v).toLowerCase() == "[object object]" && !v.length;
+	}
+	function checkFreeze(obj){
+		
+	}
+	
 })(jQuery);

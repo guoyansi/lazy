@@ -2,649 +2,562 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title></title>
+		<script type="text/javascript" src="../../js/jquery-2.1.4.js"></script>
+		<script type="text/javascript" src="tableFreeze.js"></script>
 		<style type="text/css">
 			*{
-				padding: 0;
 				margin: 0;
+				padding: 0;
 			}
-			ul,li{
-				list-style: none;
+			table{
+				border-collapse: collapse;
+    			border-spacing: 0;
 			}
-			.ui-table-box{
-				width: 80%;
-				height: 300px;
-				overflow: auto;
-				/*border: 1px solid red;*/
-				margin-left: 20px;
-			}
-			th{
+			td{
 				white-space: nowrap;
-				overflow: hidden;
+				border:1px solid black;
+				padding: 5px 10px;
 			}
 		</style>
-		<link rel="stylesheet" href="../../face/6/css/base.css" />
-		<link rel="stylesheet" href="../../face/6/css/lazy.css" />
-		<link rel="stylesheet" href="tableFreeze.css" />
-		<script type="text/javascript" src="../../js/jquery-2.1.4.js" ></script>
-		<script type="text/javascript" src="../tableFreeze/tableFreeze.js" ></script>
 	</head>
 	<body>
 		<h3>
-			不支持跨行，跨列的复杂表格样式
+			<p>注意事项</p>
+			<p>1.给#test div设置背景色;否则冻结单元格是透明的，能够看到下面的元素</p>
+			<p>2.[2,0,0,2]冻结2行2列；参数顺序为从top开始顺时针设置冻结元素</p>
+			<p>
+				调用：
+				var freeze=[2,0,0,2]//从top开始顺时针
+				$("#test").ui_freeze(freeze);
+				</p>
+				<p>重置冻结
+				$("#test").ui_freeze("reset");
+				</p>
+					<p>清除冻结
+				$("#test").ui_freeze("clear");
+				</p>
+			<p>3.请保持下面的html格式</p>
 		</h3>
-		<div id="tableBox" class="ui-table-box" style="margin-top:50px;">
-			<table class="ui-table">
-			<thead class="ui-table-thead">
-				<tr class="ui-table-tr">
-					<th class="ui-table-td ui-table-center" style="width: 180px;">编号</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">姓名</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">电话</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">年龄</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">地址</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">编号</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">姓名</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">电话</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">年龄</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">地址</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">编号</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">姓名</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">电话</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">年龄</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">地址</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">编号</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">姓名</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">电话</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">年龄</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">地址</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">编号</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">姓名</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">电话</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">年龄</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">地址</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">编号</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">姓名</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">电话</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">年龄</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">地址</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">编号</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">姓名</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">电话</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">年龄</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">地址</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">编号</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">姓名</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">电话</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">年龄</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">地址</th>
+		<button onclick="clearFreeze()">清楚冻结</button>
+		<button onclick="resetTable()">重置表格</button>
+		<div id="test" style="background-color:white;width: 95%;height: 350px;">
+			<table>
+				<tr>
+					<td rowspan="2">姓名1</td>
+					<td>姓名1</td>
+					<td>姓名3</td>
+					<td>姓名4</td>
+					<td>姓名5</td>
+					<td>姓名6</td>
+					<td>姓名7</td>
+					<td>姓名8</td>
+					<td>姓名9</td>
+					<td>姓名10</td>
+					<td>姓名11</td>
+					<td>姓名12</td>
+					<td>姓名13</td>
+					<td>姓名14</td>
+					<td>姓名15</td>
+					<td>姓名16</td>
+					<td>姓名17</td>
+					<td>姓名18</td>
+					<td>姓名19</td>
+					<td>姓名20</td>
+					<td>姓名21</td>
+					<td>姓名22</td>
 				</tr>
-			</thead>
-			<tbody>
-				<tr class="ui-table-tr ui-table-left">
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">安徽省，合肥市高新区</td>
+				<tr>
+					<td>姓名2</td>
+					<td>姓名2</td>
+					<td>姓名3</td>
+					<td>姓名4</td>
+					<td>姓名5</td>
+					<td>姓名6</td>
+					<td>姓名7</td>
+					<td>姓名8</td>
+					<td>姓名9</td>
+					<td>姓名10</td>
+					<td>姓名11</td>
+					<td>姓名12</td>
+					<td>姓名13</td>
+					<td>姓名14</td>
+					<td>姓名15</td>
+					<td>姓名16</td>
+					<td>姓名17</td>
+					<td>姓名18</td>
+					<td>姓名19</td>
+					<td>姓名20</td>
+					<td>姓名21</td>
+					<!--<td>姓名22</td>-->
 				</tr>
-				<tr class="ui-table-tr">
-					<td class="ui-table-td ui-table-center">1</td>
-					<td class="ui-table-td ui-table-center">张晓明</td>
-					<td class="ui-table-td ui-table-center">15755196671</td>
-					<td class="ui-table-td ui-table-center">126</td>
-					<td class="ui-table-td ui-table-center">安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-center">1</td>
-					<td class="ui-table-td ui-table-center">张晓明</td>
-					<td class="ui-table-td ui-table-center">15755196671</td>
-					<td class="ui-table-td ui-table-center">126</td>
-					<td class="ui-table-td ui-table-center">安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-center">1</td>
-					<td class="ui-table-td ui-table-center">张晓明</td>
-					<td class="ui-table-td ui-table-center">15755196671</td>
-					<td class="ui-table-td ui-table-center">126</td>
-					<td class="ui-table-td ui-table-center">安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-center">1</td>
-					<td class="ui-table-td ui-table-center">张晓明</td>
-					<td class="ui-table-td ui-table-center">15755196671</td>
-					<td class="ui-table-td ui-table-center">126</td>
-					<td class="ui-table-td ui-table-center">安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-center">1</td>
-					<td class="ui-table-td ui-table-center">张晓明</td>
-					<td class="ui-table-td ui-table-center">15755196671</td>
-					<td class="ui-table-td ui-table-center">126</td>
-					<td class="ui-table-td ui-table-center">安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-center">1</td>
-					<td class="ui-table-td ui-table-center">张晓明</td>
-					<td class="ui-table-td ui-table-center">15755196671</td>
-					<td class="ui-table-td ui-table-center">126</td>
-					<td class="ui-table-td ui-table-center">安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-center">1</td>
-					<td class="ui-table-td ui-table-center">张晓明</td>
-					<td class="ui-table-td ui-table-center">15755196671</td>
-					<td class="ui-table-td ui-table-center">126</td>
-					<td class="ui-table-td ui-table-center">安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-center">1</td>
-					<td class="ui-table-td ui-table-center">张晓明</td>
-					<td class="ui-table-td ui-table-center">15755196671</td>
-					<td class="ui-table-td ui-table-center">126</td>
-					<td class="ui-table-td ui-table-center">安徽省，合肥市高新区</td>
-					
+				<tr>
+					<td>姓名3</td>
+					<td>姓名3</td>
+					<td>姓名3</td>
+					<td>姓名4</td>
+					<td>姓名5</td>
+					<td>姓名6</td>
+					<td>姓名7</td>
+					<td>姓名8</td>
+					<td>姓名9</td>
+					<td>姓名10</td>
+					<td>姓名11</td>
+					<td>姓名12</td>
+					<td>姓名13</td>
+					<td>姓名14</td>
+					<td>姓名15</td>
+					<td>姓名16</td>
+					<td>姓名17</td>
+					<td>姓名18</td>
+					<td>姓名19</td>
+					<td>姓名20</td>
+					<td>姓名21</td>
+					<td>姓名22</td>
 				</tr>
-				<tr class="ui-table-tr">
-					<td class="ui-table-td ui-table-right">1</td>
-					<td class="ui-table-td ui-table-right">张晓明</td>
-					<td class="ui-table-td ui-table-right">15755196671</td>
-					<td class="ui-table-td ui-table-right">126</td>
-					<td class="ui-table-td  ui-table-left">安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-right">1</td>
-					<td class="ui-table-td ui-table-right">张晓明</td>
-					<td class="ui-table-td ui-table-right">15755196671</td>
-					<td class="ui-table-td ui-table-right">126</td>
-					<td class="ui-table-td  ui-table-left">安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-right">1</td>
-					<td class="ui-table-td ui-table-right">张晓明</td>
-					<td class="ui-table-td ui-table-right">15755196671</td>
-					<td class="ui-table-td ui-table-right">126</td>
-					<td class="ui-table-td  ui-table-left">安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-right">1</td>
-					<td class="ui-table-td ui-table-right">张晓明</td>
-					<td class="ui-table-td ui-table-right">15755196671</td>
-					<td class="ui-table-td ui-table-right">126</td>
-					<td class="ui-table-td  ui-table-left">安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-right">1</td>
-					<td class="ui-table-td ui-table-right">张晓明</td>
-					<td class="ui-table-td ui-table-right">15755196671</td>
-					<td class="ui-table-td ui-table-right">126</td>
-					<td class="ui-table-td  ui-table-left">安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-right">1</td>
-					<td class="ui-table-td ui-table-right">张晓明</td>
-					<td class="ui-table-td ui-table-right">15755196671</td>
-					<td class="ui-table-td ui-table-right">126</td>
-					<td class="ui-table-td  ui-table-left">安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-right">1</td>
-					<td class="ui-table-td ui-table-right">张晓明</td>
-					<td class="ui-table-td ui-table-right">15755196671</td>
-					<td class="ui-table-td ui-table-right">126</td>
-					<td class="ui-table-td  ui-table-left">安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-right">1</td>
-					<td class="ui-table-td ui-table-right">张晓明</td>
-					<td class="ui-table-td ui-table-right">15755196671</td>
-					<td class="ui-table-td ui-table-right">126</td>
-					<td class="ui-table-td  ui-table-left">安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区</td>
+				<tr>
+					<td>姓名4</td>
+					<td>姓名4</td>
+					<td>姓名3</td>
+					<td>姓名4</td>
+					<td>姓名5</td>
+					<td>姓名6</td>
+					<td>姓名7</td>
+					<td>姓名8</td>
+					<td>姓名9</td>
+					<td>姓名10</td>
+					<td>姓名11</td>
+					<td>姓名12</td>
+					<td>姓名13</td>
+					<td>姓名14</td>
+					<td>姓名15</td>
+					<td>姓名16</td>
+					<td>姓名17</td>
+					<td>姓名18</td>
+					<td>姓名19</td>
+					<td>姓名20</td>
+					<td>姓名21</td>
+					<td>姓名22</td>
 				</tr>
-				<tr class="ui-table-tr ui-table-left">
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">安徽省，合肥市高新区</td>
+				<tr>
+					<td>姓名5</td>
+					<td>姓名5</td>
+					<td>姓名3</td>
+					<td>姓名4</td>
+					<td>姓名5</td>
+					<td>姓名6</td>
+					<td>姓名7</td>
+					<td>姓名8</td>
+					<td>姓名9</td>
+					<td>姓名10</td>
+					<td>姓名11</td>
+					<td>姓名12</td>
+					<td>姓名13</td>
+					<td>姓名14</td>
+					<td>姓名15</td>
+					<td>姓名16</td>
+					<td>姓名17</td>
+					<td>姓名18</td>
+					<td>姓名19</td>
+					<td>姓名20</td>
+					<td>姓名21</td>
+					<td>姓名22</td>
 				</tr>
-				<tr class="ui-table-tr">
-					<td class="ui-table-td ui-table-center">1</td>
-					<td class="ui-table-td ui-table-center">张晓明</td>
-					<td class="ui-table-td ui-table-center">15755196671</td>
-					<td class="ui-table-td ui-table-center">126</td>
-					<td class="ui-table-td ui-table-center">安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-center">1</td>
-					<td class="ui-table-td ui-table-center">张晓明</td>
-					<td class="ui-table-td ui-table-center">15755196671</td>
-					<td class="ui-table-td ui-table-center">126</td>
-					<td class="ui-table-td ui-table-center">安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-center">1</td>
-					<td class="ui-table-td ui-table-center">张晓明</td>
-					<td class="ui-table-td ui-table-center">15755196671</td>
-					<td class="ui-table-td ui-table-center">126</td>
-					<td class="ui-table-td ui-table-center">安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-center">1</td>
-					<td class="ui-table-td ui-table-center">张晓明</td>
-					<td class="ui-table-td ui-table-center">15755196671</td>
-					<td class="ui-table-td ui-table-center">126</td>
-					<td class="ui-table-td ui-table-center">安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-center">1</td>
-					<td class="ui-table-td ui-table-center">张晓明</td>
-					<td class="ui-table-td ui-table-center">15755196671</td>
-					<td class="ui-table-td ui-table-center">126</td>
-					<td class="ui-table-td ui-table-center">安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-center">1</td>
-					<td class="ui-table-td ui-table-center">张晓明</td>
-					<td class="ui-table-td ui-table-center">15755196671</td>
-					<td class="ui-table-td ui-table-center">126</td>
-					<td class="ui-table-td ui-table-center">安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-center">1</td>
-					<td class="ui-table-td ui-table-center">张晓明</td>
-					<td class="ui-table-td ui-table-center">15755196671</td>
-					<td class="ui-table-td ui-table-center">126</td>
-					<td class="ui-table-td ui-table-center">安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-center">1</td>
-					<td class="ui-table-td ui-table-center">张晓明</td>
-					<td class="ui-table-td ui-table-center">15755196671</td>
-					<td class="ui-table-td ui-table-center">126</td>
-					<td class="ui-table-td ui-table-center">安徽省，合肥市高新区</td>
-					
+				<tr>
+					<td>姓名6</td>
+					<td>姓名6</td>
+					<td>姓名3</td>
+					<td>姓名4</td>
+					<td>姓名5</td>
+					<td>姓名6</td>
+					<td>姓名7</td>
+					<td>姓名8</td>
+					<td>姓名9</td>
+					<td>姓名10</td>
+					<td>姓名11</td>
+					<td>姓名12</td>
+					<td>姓名13</td>
+					<td>姓名14</td>
+					<td>姓名15</td>
+					<td>姓名16</td>
+					<td>姓名17</td>
+					<td>姓名18</td>
+					<td>姓名19</td>
+					<td>姓名20</td>
+					<td>姓名21</td>
+					<td>姓名22</td>
 				</tr>
-				<tr class="ui-table-tr">
-					<td class="ui-table-td ui-table-right">1</td>
-					<td class="ui-table-td ui-table-right">张晓明</td>
-					<td class="ui-table-td ui-table-right">15755196671</td>
-					<td class="ui-table-td ui-table-right">126</td>
-					<td class="ui-table-td  ui-table-left">安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-right">1</td>
-					<td class="ui-table-td ui-table-right">张晓明</td>
-					<td class="ui-table-td ui-table-right">15755196671</td>
-					<td class="ui-table-td ui-table-right">126</td>
-					<td class="ui-table-td  ui-table-left">安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-right">1</td>
-					<td class="ui-table-td ui-table-right">张晓明</td>
-					<td class="ui-table-td ui-table-right">15755196671</td>
-					<td class="ui-table-td ui-table-right">126</td>
-					<td class="ui-table-td  ui-table-left">安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-right">1</td>
-					<td class="ui-table-td ui-table-right">张晓明</td>
-					<td class="ui-table-td ui-table-right">15755196671</td>
-					<td class="ui-table-td ui-table-right">126</td>
-					<td class="ui-table-td  ui-table-left">安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-right">1</td>
-					<td class="ui-table-td ui-table-right">张晓明</td>
-					<td class="ui-table-td ui-table-right">15755196671</td>
-					<td class="ui-table-td ui-table-right">126</td>
-					<td class="ui-table-td  ui-table-left">安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-right">1</td>
-					<td class="ui-table-td ui-table-right">张晓明</td>
-					<td class="ui-table-td ui-table-right">15755196671</td>
-					<td class="ui-table-td ui-table-right">126</td>
-					<td class="ui-table-td  ui-table-left">安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-right">1</td>
-					<td class="ui-table-td ui-table-right">张晓明</td>
-					<td class="ui-table-td ui-table-right">15755196671</td>
-					<td class="ui-table-td ui-table-right">126</td>
-					<td class="ui-table-td  ui-table-left">安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-right">1</td>
-					<td class="ui-table-td ui-table-right">张晓明</td>
-					<td class="ui-table-td ui-table-right">15755196671</td>
-					<td class="ui-table-td ui-table-right">126</td>
-					<td class="ui-table-td  ui-table-left">安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区</td>
+				<tr>
+					<td>姓名7</td>
+					<td>姓名7</td>
+					<td>姓名3</td>
+					<td>姓名4</td>
+					<td>姓名5</td>
+					<td>姓名6</td>
+					<td>姓名7</td>
+					<td>姓名8</td>
+					<td>姓名9</td>
+					<td>姓名10</td>
+					<td>姓名11</td>
+					<td>姓名12</td>
+					<td>姓名13</td>
+					<td>姓名14</td>
+					<td>姓名15</td>
+					<td>姓名16</td>
+					<td>姓名17</td>
+					<td>姓名18</td>
+					<td>姓名19</td>
+					<td>姓名20</td>
+					<td>姓名21</td>
+					<td>姓名22</td>
 				</tr>
-			</tbody>
-		</table>
-		</div>
-		
-		<div id="tableBox1" class="ui-table-box" style="margin-top:50px;">
-			<table class="ui-table">
-			<thead class="ui-table-thead">
-				<tr class="ui-table-tr">
-					<th class="ui-table-td ui-table-center" style="width: 180px;">编号</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">姓名</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">电话</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">年龄</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">地址</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">编号</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">姓名</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">电话</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">年龄</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">地址</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">编号</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">姓名</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">电话</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">年龄</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">地址</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">编号</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">姓名</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">电话</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">年龄</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">地址</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">编号</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">姓名</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">电话</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">年龄</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">地址</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">编号</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">姓名</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">电话</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">年龄</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">地址</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">编号</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">姓名</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">电话</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">年龄</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">地址</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">编号</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">姓名</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">电话</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">年龄</th>
-					<th class="ui-table-td ui-table-center" style="width: 180px;">地址</th>
+				<tr>
+					<td>姓名8</td>
+					<td>姓名8</td>
+					<td>姓名3</td>
+					<td>姓名4</td>
+					<td>姓名5</td>
+					<td>姓名6</td>
+					<td>姓名7</td>
+					<td>姓名8</td>
+					<td>姓名9</td>
+					<td>姓名10</td>
+					<td>姓名11</td>
+					<td>姓名12</td>
+					<td>姓名13</td>
+					<td>姓名14</td>
+					<td>姓名15</td>
+					<td>姓名16</td>
+					<td>姓名17</td>
+					<td>姓名18</td>
+					<td>姓名19</td>
+					<td>姓名20</td>
+					<td>姓名21</td>
+					<td>姓名22</td>
 				</tr>
-			</thead>
-			<tbody>
-				<tr class="ui-table-tr ui-table-left">
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">安徽省，合肥市高新区</td>
+				<tr>
+					<td>姓名9</td>
+					<td>姓名9</td>
+					<td>姓名3</td>
+					<td>姓名4</td>
+					<td>姓名5</td>
+					<td>姓名6</td>
+					<td>姓名7</td>
+					<td>姓名8</td>
+					<td>姓名9</td>
+					<td>姓名10</td>
+					<td>姓名11</td>
+					<td>姓名12</td>
+					<td>姓名13</td>
+					<td>姓名14</td>
+					<td>姓名15</td>
+					<td>姓名16</td>
+					<td>姓名17</td>
+					<td>姓名18</td>
+					<td>姓名19</td>
+					<td>姓名20</td>
+					<td>姓名21</td>
+					<td>姓名22</td>
 				</tr>
-				<tr class="ui-table-tr">
-					<td class="ui-table-td ui-table-center">1</td>
-					<td class="ui-table-td ui-table-center">张晓明</td>
-					<td class="ui-table-td ui-table-center">15755196671</td>
-					<td class="ui-table-td ui-table-center">126</td>
-					<td class="ui-table-td ui-table-center">安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-center">1</td>
-					<td class="ui-table-td ui-table-center">张晓明</td>
-					<td class="ui-table-td ui-table-center">15755196671</td>
-					<td class="ui-table-td ui-table-center">126</td>
-					<td class="ui-table-td ui-table-center">安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-center">1</td>
-					<td class="ui-table-td ui-table-center">张晓明</td>
-					<td class="ui-table-td ui-table-center">15755196671</td>
-					<td class="ui-table-td ui-table-center">126</td>
-					<td class="ui-table-td ui-table-center">安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-center">1</td>
-					<td class="ui-table-td ui-table-center">张晓明</td>
-					<td class="ui-table-td ui-table-center">15755196671</td>
-					<td class="ui-table-td ui-table-center">126</td>
-					<td class="ui-table-td ui-table-center">安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-center">1</td>
-					<td class="ui-table-td ui-table-center">张晓明</td>
-					<td class="ui-table-td ui-table-center">15755196671</td>
-					<td class="ui-table-td ui-table-center">126</td>
-					<td class="ui-table-td ui-table-center">安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-center">1</td>
-					<td class="ui-table-td ui-table-center">张晓明</td>
-					<td class="ui-table-td ui-table-center">15755196671</td>
-					<td class="ui-table-td ui-table-center">126</td>
-					<td class="ui-table-td ui-table-center">安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-center">1</td>
-					<td class="ui-table-td ui-table-center">张晓明</td>
-					<td class="ui-table-td ui-table-center">15755196671</td>
-					<td class="ui-table-td ui-table-center">126</td>
-					<td class="ui-table-td ui-table-center">安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-center">1</td>
-					<td class="ui-table-td ui-table-center">张晓明</td>
-					<td class="ui-table-td ui-table-center">15755196671</td>
-					<td class="ui-table-td ui-table-center">126</td>
-					<td class="ui-table-td ui-table-center">安徽省，合肥市高新区</td>
-					
+				<tr>
+					<td>姓名10</td>
+					<td>姓名10</td>
+					<td>姓名3</td>
+					<td>姓名4</td>
+					<td>姓名5</td>
+					<td>姓名6</td>
+					<td>姓名7</td>
+					<td>姓名8</td>
+					<td>姓名9</td>
+					<td>姓名10</td>
+					<td>姓名11</td>
+					<td>姓名12</td>
+					<td>姓名13</td>
+					<td>姓名14</td>
+					<td>姓名15</td>
+					<td>姓名16</td>
+					<td>姓名17</td>
+					<td>姓名18</td>
+					<td>姓名19</td>
+					<td>姓名20</td>
+					<td>姓名21</td>
+					<td>姓名22</td>
 				</tr>
-				<tr class="ui-table-tr">
-					<td class="ui-table-td ui-table-right">1</td>
-					<td class="ui-table-td ui-table-right">张晓明</td>
-					<td class="ui-table-td ui-table-right">15755196671</td>
-					<td class="ui-table-td ui-table-right">126</td>
-					<td class="ui-table-td  ui-table-left">安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-right">1</td>
-					<td class="ui-table-td ui-table-right">张晓明</td>
-					<td class="ui-table-td ui-table-right">15755196671</td>
-					<td class="ui-table-td ui-table-right">126</td>
-					<td class="ui-table-td  ui-table-left">安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-right">1</td>
-					<td class="ui-table-td ui-table-right">张晓明</td>
-					<td class="ui-table-td ui-table-right">15755196671</td>
-					<td class="ui-table-td ui-table-right">126</td>
-					<td class="ui-table-td  ui-table-left">安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-right">1</td>
-					<td class="ui-table-td ui-table-right">张晓明</td>
-					<td class="ui-table-td ui-table-right">15755196671</td>
-					<td class="ui-table-td ui-table-right">126</td>
-					<td class="ui-table-td  ui-table-left">安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-right">1</td>
-					<td class="ui-table-td ui-table-right">张晓明</td>
-					<td class="ui-table-td ui-table-right">15755196671</td>
-					<td class="ui-table-td ui-table-right">126</td>
-					<td class="ui-table-td  ui-table-left">安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-right">1</td>
-					<td class="ui-table-td ui-table-right">张晓明</td>
-					<td class="ui-table-td ui-table-right">15755196671</td>
-					<td class="ui-table-td ui-table-right">126</td>
-					<td class="ui-table-td  ui-table-left">安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-right">1</td>
-					<td class="ui-table-td ui-table-right">张晓明</td>
-					<td class="ui-table-td ui-table-right">15755196671</td>
-					<td class="ui-table-td ui-table-right">126</td>
-					<td class="ui-table-td  ui-table-left">安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-right">1</td>
-					<td class="ui-table-td ui-table-right">张晓明</td>
-					<td class="ui-table-td ui-table-right">15755196671</td>
-					<td class="ui-table-td ui-table-right">126</td>
-					<td class="ui-table-td  ui-table-left">安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区</td>
+				<tr>
+					<td>姓名11</td>
+					<td>姓名11</td>
+					<td>姓名3</td>
+					<td>姓名4</td>
+					<td>姓名5</td>
+					<td>姓名6</td>
+					<td>姓名7</td>
+					<td>姓名8</td>
+					<td>姓名9</td>
+					<td>姓名10</td>
+					<td>姓名11</td>
+					<td>姓名12</td>
+					<td>姓名13</td>
+					<td>姓名14</td>
+					<td>姓名15</td>
+					<td>姓名16</td>
+					<td>姓名17</td>
+					<td>姓名18</td>
+					<td>姓名19</td>
+					<td>姓名20</td>
+					<td>姓名21</td>
+					<td>姓名22</td>
 				</tr>
-				<tr class="ui-table-tr ui-table-left">
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明张晓明</td>
-					<td class="ui-table-td ui-table-left">安徽省，合肥市高新区</td>
+				<tr>
+					<td>姓名12</td>
+					<td>姓名12</td>
+					<td>姓名3</td>
+					<td>姓名4</td>
+					<td>姓名5</td>
+					<td>姓名6</td>
+					<td>姓名7</td>
+					<td>姓名8</td>
+					<td>姓名9</td>
+					<td>姓名10</td>
+					<td>姓名11</td>
+					<td>姓名12</td>
+					<td>姓名13</td>
+					<td>姓名14</td>
+					<td>姓名15</td>
+					<td>姓名16</td>
+					<td>姓名17</td>
+					<td>姓名18</td>
+					<td>姓名19</td>
+					<td>姓名20</td>
+					<td>姓名21</td>
+					<td>姓名22</td>
 				</tr>
-				<tr class="ui-table-tr">
-					<td class="ui-table-td ui-table-center">1</td>
-					<td class="ui-table-td ui-table-center">张晓明</td>
-					<td class="ui-table-td ui-table-center">15755196671</td>
-					<td class="ui-table-td ui-table-center">126</td>
-					<td class="ui-table-td ui-table-center">安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-center">1</td>
-					<td class="ui-table-td ui-table-center">张晓明</td>
-					<td class="ui-table-td ui-table-center">15755196671</td>
-					<td class="ui-table-td ui-table-center">126</td>
-					<td class="ui-table-td ui-table-center">安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-center">1</td>
-					<td class="ui-table-td ui-table-center">张晓明</td>
-					<td class="ui-table-td ui-table-center">15755196671</td>
-					<td class="ui-table-td ui-table-center">126</td>
-					<td class="ui-table-td ui-table-center">安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-center">1</td>
-					<td class="ui-table-td ui-table-center">张晓明</td>
-					<td class="ui-table-td ui-table-center">15755196671</td>
-					<td class="ui-table-td ui-table-center">126</td>
-					<td class="ui-table-td ui-table-center">安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-center">1</td>
-					<td class="ui-table-td ui-table-center">张晓明</td>
-					<td class="ui-table-td ui-table-center">15755196671</td>
-					<td class="ui-table-td ui-table-center">126</td>
-					<td class="ui-table-td ui-table-center">安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-center">1</td>
-					<td class="ui-table-td ui-table-center">张晓明</td>
-					<td class="ui-table-td ui-table-center">15755196671</td>
-					<td class="ui-table-td ui-table-center">126</td>
-					<td class="ui-table-td ui-table-center">安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-center">1</td>
-					<td class="ui-table-td ui-table-center">张晓明</td>
-					<td class="ui-table-td ui-table-center">15755196671</td>
-					<td class="ui-table-td ui-table-center">126</td>
-					<td class="ui-table-td ui-table-center">安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-center">1</td>
-					<td class="ui-table-td ui-table-center">张晓明</td>
-					<td class="ui-table-td ui-table-center">15755196671</td>
-					<td class="ui-table-td ui-table-center">126</td>
-					<td class="ui-table-td ui-table-center">安徽省，合肥市高新区</td>
-					
+				<tr>
+					<td>姓名13</td>
+					<td>姓名13</td>
+					<td>姓名3</td>
+					<td>姓名4</td>
+					<td>姓名5</td>
+					<td>姓名6</td>
+					<td>姓名7</td>
+					<td>姓名8</td>
+					<td>姓名9</td>
+					<td>姓名10</td>
+					<td>姓名11</td>
+					<td>姓名12</td>
+					<td>姓名13</td>
+					<td>姓名14</td>
+					<td>姓名15</td>
+					<td>姓名16</td>
+					<td>姓名17</td>
+					<td>姓名18</td>
+					<td>姓名19</td>
+					<td>姓名20</td>
+					<td>姓名21</td>
+					<td>姓名22</td>
 				</tr>
-				<tr class="ui-table-tr">
-					<td class="ui-table-td ui-table-right">1</td>
-					<td class="ui-table-td ui-table-right">张晓明</td>
-					<td class="ui-table-td ui-table-right">15755196671</td>
-					<td class="ui-table-td ui-table-right">126</td>
-					<td class="ui-table-td  ui-table-left">安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-right">1</td>
-					<td class="ui-table-td ui-table-right">张晓明</td>
-					<td class="ui-table-td ui-table-right">15755196671</td>
-					<td class="ui-table-td ui-table-right">126</td>
-					<td class="ui-table-td  ui-table-left">安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-right">1</td>
-					<td class="ui-table-td ui-table-right">张晓明</td>
-					<td class="ui-table-td ui-table-right">15755196671</td>
-					<td class="ui-table-td ui-table-right">126</td>
-					<td class="ui-table-td  ui-table-left">安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-right">1</td>
-					<td class="ui-table-td ui-table-right">张晓明</td>
-					<td class="ui-table-td ui-table-right">15755196671</td>
-					<td class="ui-table-td ui-table-right">126</td>
-					<td class="ui-table-td  ui-table-left">安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-right">1</td>
-					<td class="ui-table-td ui-table-right">张晓明</td>
-					<td class="ui-table-td ui-table-right">15755196671</td>
-					<td class="ui-table-td ui-table-right">126</td>
-					<td class="ui-table-td  ui-table-left">安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-right">1</td>
-					<td class="ui-table-td ui-table-right">张晓明</td>
-					<td class="ui-table-td ui-table-right">15755196671</td>
-					<td class="ui-table-td ui-table-right">126</td>
-					<td class="ui-table-td  ui-table-left">安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-right">1</td>
-					<td class="ui-table-td ui-table-right">张晓明</td>
-					<td class="ui-table-td ui-table-right">15755196671</td>
-					<td class="ui-table-td ui-table-right">126</td>
-					<td class="ui-table-td  ui-table-left">安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区</td>
-					<td class="ui-table-td ui-table-right">1</td>
-					<td class="ui-table-td ui-table-right">张晓明</td>
-					<td class="ui-table-td ui-table-right">15755196671</td>
-					<td class="ui-table-td ui-table-right">126</td>
-					<td class="ui-table-td  ui-table-left">安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区安徽省，合肥市高新区</td>
+				
+				<tr>
+					<td>姓名13</td>
+					<td>姓名13</td>
+					<td>姓名3</td>
+					<td>姓名4</td>
+					<td>姓名5</td>
+					<td>姓名6</td>
+					<td>姓名7</td>
+					<td>姓名8</td>
+					<td>姓名9</td>
+					<td>姓名10</td>
+					<td>姓名11</td>
+					<td>姓名12</td>
+					<td>姓名13</td>
+					<td>姓名14</td>
+					<td>姓名15</td>
+					<td>姓名16</td>
+					<td>姓名17</td>
+					<td>姓名18</td>
+					<td>姓名19</td>
+					<td>姓名20</td>
+					<td>姓名21</td>
+					<td>姓名22</td>
 				</tr>
-			</tbody>
-		</table>
+				
+				<tr>
+					<td>姓名13</td>
+					<td>姓名13</td>
+					<td>姓名3</td>
+					<td>姓名4</td>
+					<td>姓名5</td>
+					<td>姓名6</td>
+					<td>姓名7</td>
+					<td>姓名8</td>
+					<td>姓名9</td>
+					<td>姓名10</td>
+					<td>姓名11</td>
+					<td>姓名12</td>
+					<td>姓名13</td>
+					<td>姓名14</td>
+					<td>姓名15</td>
+					<td>姓名16</td>
+					<td>姓名17</td>
+					<td>姓名18</td>
+					<td>姓名19</td>
+					<td>姓名20</td>
+					<td>姓名21</td>
+					<td>姓名22</td>
+				</tr>
+				
+				<tr>
+					<td>姓名13</td>
+					<td>姓名13</td>
+					<td>姓名3</td>
+					<td>姓名4</td>
+					<td>姓名5</td>
+					<td>姓名6</td>
+					<td>姓名7</td>
+					<td>姓名8</td>
+					<td>姓名9</td>
+					<td>姓名10</td>
+					<td>姓名11</td>
+					<td>姓名12</td>
+					<td>姓名13</td>
+					<td>姓名14</td>
+					<td>姓名15</td>
+					<td>姓名16</td>
+					<td>姓名17</td>
+					<td>姓名18</td>
+					<td>姓名19</td>
+					<td>姓名20</td>
+					<td>姓名21</td>
+					<td>姓名22</td>
+				</tr>
+				
+				<tr>
+					<td>姓名13</td>
+					<td>姓名13</td>
+					<td>姓名3</td>
+					<td>姓名4</td>
+					<td>姓名5</td>
+					<td>姓名6</td>
+					<td>姓名7</td>
+					<td>姓名8</td>
+					<td>姓名9</td>
+					<td>姓名10</td>
+					<td>姓名11</td>
+					<td>姓名12</td>
+					<td>姓名13</td>
+					<td>姓名14</td>
+					<td>姓名15</td>
+					<td>姓名16</td>
+					<td>姓名17</td>
+					<td>姓名18</td>
+					<td>姓名19</td>
+					<td>姓名20</td>
+					<td>姓名21</td>
+					<td>姓名22</td>
+				</tr>
+				
+				<tr>
+					<td>姓名13</td>
+					<td>姓名13</td>
+					<td>姓名3</td>
+					<td>姓名4</td>
+					<td>姓名5</td>
+					<td>姓名6</td>
+					<td>姓名7</td>
+					<td>姓名8</td>
+					<td>姓名9</td>
+					<td>姓名10</td>
+					<td>姓名11</td>
+					<td>姓名12</td>
+					<td>姓名13</td>
+					<td>姓名14</td>
+					<td>姓名15</td>
+					<td>姓名16</td>
+					<td>姓名17</td>
+					<td>姓名18</td>
+					<td>姓名19</td>
+					<td>姓名20</td>
+					<td>姓名21</td>
+					<td>姓名22</td>
+				</tr>
+				
+				<tr>
+					<td>姓名13</td>
+					<td>姓名13</td>
+					<td>姓名3</td>
+					<td>姓名4</td>
+					<td>姓名5</td>
+					<td>姓名6</td>
+					<td>姓名7</td>
+					<td>姓名8</td>
+					<td>姓名9</td>
+					<td>姓名10</td>
+					<td>姓名11</td>
+					<td>姓名12</td>
+					<td>姓名13</td>
+					<td>姓名14</td>
+					<td>姓名15</td>
+					<td>姓名16</td>
+					<td>姓名17</td>
+					<td>姓名18</td>
+					<td>姓名19</td>
+					<td>姓名20</td>
+					<td>姓名21</td>
+					<td>姓名22</td>
+				</tr>
+				
+				<tr>
+					<td>姓名13</td>
+					<td>姓名13</td>
+					<td>姓名3</td>
+					<td>姓名4</td>
+					<td>姓名5</td>
+					<td>姓名6</td>
+					<td>姓名7</td>
+					<td>姓名8</td>
+					<td>姓名9</td>
+					<td>姓名10</td>
+					<td>姓名11</td>
+					<td>姓名12</td>
+					<td>姓名13</td>
+					<td>姓名14</td>
+					<td>姓名15</td>
+					<td>姓名16</td>
+					<td>姓名17</td>
+					<td>姓名18</td>
+					<td>姓名19</td>
+					<td>姓名20</td>
+					<td>姓名21</td>
+					<td>姓名22</td>
+				</tr>
+			</table>
 		</div>
 	</body>
+	<script type="text/javascript">
+		/*var opts={
+			//top:150,
+			//left:0,
+			//right:0,
+			//bottom:0,
+			//width:"90%",
+			//height:300,
+			//zIndex:1000,
+			freeze:[2,0,0,2]//从top开始顺时针
+		};*/
+	var freeze=[2,0,0,2]//从top开始顺时针
+$("#test").ui_freeze(freeze);//.css({color:"red"});
+function resetTable(){
+	$("#test").ui_freeze("reset");
+}
+
+function clearFreeze(){
+	$("#test").ui_freeze("clear");
+}
+//console.log("元素宽度"+$("#test").width());
+//$("#test").scrollLeft(1000000000);
+//console.log("元素影藏内容宽度"+$("#test").scrollLeft());
+//console.log("元素内容实际宽度"+$("#test table").outerWidth(true));
+		///$("#test2").ui_freeze({}).css({color:"green"});
+	</script>
 </html>
-<script type="text/javascript">
-	$("#tableBox").ui_table();
-	$("#tableBox1").ui_table();
-</script>

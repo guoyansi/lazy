@@ -1,0 +1,75 @@
+/**kb-tab  start==================================*/
+.kb-tab{
+	width: 100%;
+	border-bottom:1px solid #6699FF;
+	box-sizing: border-box;
+	overflow: auto;
+}
+.kb-tab-item-scroll{
+	overflow: hidden;
+	height: 100%;
+}
+.kb-tab-item{
+	float: left;
+	text-align: center;
+	box-sizing: border-box;
+	line-height: 15px;
+	font-size: 15px;
+	height: 100%;
+	overflow: hidden;
+	padding:3px 10px;
+	box-sizing: border-box;
+	position: relative;
+}
+.kb-tab-item-txt{
+	text-align: center;
+	box-sizing: border-box;
+}
+/*换行*/
+.kb-tab-item-txt-wordWrap{
+	width: 98%;
+	word-break: break-word;
+	/*white-space: nowrap;*/
+	left:50%;
+	top:50%;
+	transform: translate(-50%,-50%);
+}
+
+.kb-tab-item.active{
+	/*border-bottom:1px solid #184ed7;*/
+	color: #1E90FF;
+}
+.kb-tab-2 .kb-tab-item{
+	width: 50%;
+}
+.kb-tab-3 .kb-tab-item{
+	width: 33.33%;
+}
+.kb-tab-4 .kb-tab-item{
+	width: 25%;
+}
+.kb-tab-5 .kb-tab-item{
+	width: 20%;
+}
+.kb-tab-6 .kb-tab-item{
+	width: 16.666666%;
+}
+.kb-tab-7 .kb-tab-item{
+	width: 14.2857143%;
+}
+.kb-tab-8 .kb-tab-item{
+	width: 12.5%;
+}
+.kb-tab-9 .kb-tab-item{
+	width: 11.1111%;
+}
+.kb-tab-10 .kb-tab-item{
+	width: 10%;
+}
+
+.kb-tab-con{
+	width: 100%;
+	margin-top: 5px;
+	overflow: auto;
+	-webkit-overflow-scrolling: touch;
+}

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+		<title></title>
+		<style type="text/css">
+			* {
+				margin: 0;
+				padding: 0;
+			}
+		</style>
+		<link rel="stylesheet" type="text/css" href="tab.css" />
+		<script type="text/javascript" src="../../js/jquery-2.1.4.min.js"></script>
+		<script type="text/javascript" src="tab.js"></script>
+	</head>
+
+	<body>
+		<div id="test"></div>
+	</body>
+	<script type="text/javascript">
+		$("#test").kb_tab({
+			active: 1, //激活项。这个参数不传，默认为1
+			wordWrap: false, //true表示tab标题自动换行（默认值），false不换行
+			tabs: [{
+					name: "一个非常长的tabname1234567890",
+					clickEvent: function() {
+						alert("tab1");
+					}
+				},
+				{
+					name: "一个非常长的tabname1234567890",
+					clickEvent: function() {
+						alert("tab2");
+					}
+				},
+				{
+					name: "一个非常长的tabname1234567890",
+					clickEvent: function() {
+						alert("tab3");
+					}
+				}
+			]
+		});
+	</script>
+
+</html>
