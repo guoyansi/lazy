@@ -44,7 +44,7 @@
 		];*/
 		//表头行3
 		var headsTr3=[
-			{name:"同比",key:"tb",px:true},
+			{name:"同比",key:"tb",px:false},
 			{name:"环比",key:"hb",px:true},
 			{name:"目标值",key:"mbz",px:true},
 			{name:"目标值差距</br>(万元)",key:"cj",px:true}	
@@ -58,55 +58,55 @@
 			hb: 9,
 			mbz: 13,
 			cj: 20,
-			jkl:15
+			jkl:150
 		}, {
 			orgName: "全国2",
 			tb: 20,
 			hb: 9,
 			mbz: 13,
 			cj: 30,
-			jkl:15
+			jkl:105
 		}];
 
 		var list = [{
-			orgName: "北京",
+			orgName: "北京8",
 			tb: 2,
 			hb: 9,
 			mbz: 13,
 			cj: 6,
 			jkl:15
 		}, {
-			orgName: "安徽",
+			orgName: "安徽4",
 			tb: 1,
 			hb: 1,
 			mbz: 23,
 			cj: 20,
-			jkl:15
+			jkl:155
 		}, {
-			orgName: "安徽",
+			orgName: "安徽0",
 			tb: 0,
 			hb: 3,
 			mbz: 30,
 			cj: -20,
-			jkl:15
+			jkl:154
 		}, {
-			orgName: "安徽",
+			orgName: "安徽1",
 			tb: 0,
 			hb: 3,
 			mbz: 30,
 			cj: 40,
-			jkl:15
+			jkl:153
 		}, {
-			orgName: "安徽",
+			orgName: "安徽2",
 			tb: 0,
 			hb: 3,
 			mbz: 30,
 			cj: -5,
-			jkl:15
+			jkl:155
 		}];
 
 		var opts = {
-			//keys:["orgName","tb","hb","mbz","cj","jkl"],
+			keys:["orgName","tb","hb","mbz","cj","jkl"],
 			heads:heads,//表头信息，支持复杂表头
 			unPxDatas: unPxData,//不排序的数据
 			unPxDatasFun:{
@@ -121,7 +121,8 @@
 				}
 			},
 			pxCallback:function(key){//排序的键值
-				console.log("排序回调函数被调用:"+key);
+				//console.log("排序回调函数被调用:"+key);
+				$(".table_test").ui_table("eventPx");
 			}
 		};
 		$(".table_test").ui_table(opts).ui_table("eventPx");

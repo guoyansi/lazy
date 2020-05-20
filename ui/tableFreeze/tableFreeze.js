@@ -15,7 +15,8 @@
 		}
 		return this.each(function(elIndex){
 			var obj=$(this).css({overflow:"auto"}).data("elIndex",elIndex).data("freeze",freeze);
-			makeFreeze(obj,freeze,elIndex,0,0);
+			//setTableSize(obj);
+			makeFreeze(obj,freeze,elIndex);
 			var sl=0,st=0;
 			obj.scroll(function(){
 				sl=$(this).scrollLeft();
@@ -50,9 +51,16 @@
 		}else{
 			throw new Error("暂时还不支持的冻结方式")
 		}
+		eventMove(obj,elIndex);
 	}
 	
-	
+	//复制了html，对事件进行迁移
+	function eventMove(obj,elIndex){
+		$(".js-freeze-div-"+elIndex).find(".js-click-px.kb-table-td-px").click(function(){
+			var clickIndex=$(this).attr("clickIndex");
+			$("td[clickIndex="+clickIndex+"]",obj).trigger("click");
+		});
+	}
 	/*function setTableSize(obj){
 		return $("table",obj).width();
 	}
@@ -204,14 +212,6 @@
 		objDiv.css(jsonCss);
 		$("body").append(objDiv);
 	}
-	
-	/*function setCloneTdSize(cloneDivObj,tdJsonSize){
-		$("table tr",cloneDivObj).each(function(index){
-			$("td",this).each(function(index2){
-				$(this).width(tdJsonSize[index+"-"+index2].w).height(tdJsonSize[index+"-"+index2].h);
-			});
-		});
-	}*/
 	
 	function getBoxAttr(obj){
 		var offset=obj.offset();
