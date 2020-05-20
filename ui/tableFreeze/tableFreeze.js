@@ -86,10 +86,133 @@
 	}
 	
 	
+	/**
+	 * var table=new Table($("#table"),2);
+		console.log(table.getAllTds());
+		console.log(table.getShortTds());
+		console.log(table.getFirstAllColumn());
+	 * @param {Object} objTable
+	 * @param {Object} rows 行号，从1开始
+	 */
+	function Table(objTable,limitRows){
+		rowspan=function(td){
+			var v=td.attr("rowspan");
+			return v?Number(v):1;
+		};
+		colspan=function(td){
+			var v=td.attr("colspan");
+			return v?Number(v):1;
+		};
+		
+		/**
+		 * a a a - -
+		 * - - a a a
+		 * a - a - -
+		 * 
+		 * a表示td的jquery对象，-表示没有td
+		 * 
+		 * 用于模拟table表格中td的的布局
+		 */
+		
+		var tds=[];
+		var add=function(row,col,tdObj){
+			if(!tds[row]){
+				tds[row]=[];
+			}
+				while(tds[row][col]){
+					col++;
+				}
+				tds[row][col]=tdObj;
+		};
+		var emptyElemt="-";
+		$("tr",objTable).each(function(row){//行号
+			if(limitRows&&row>limitRows-1){
+				return false;
+			}
+			$("td",this).each(function(col){//列号
+				var tdObj=$(this);
+				var r=rowspan(tdObj);//跨行数
+				var c=colspan(tdObj);//跨列数
+				add(row,col,tdObj);
+				for(var i=1;i<r;i++){
+					add(row+i,col,emptyElemt);
+				}
+				for(i=1;i<c;i++){
+					add(row,col+i,emptyElemt);
+				}
+			});
+		});
+		
+		/**
+		 * 获取完整的tds数据
+		 */
+		this.getAllTds=function(){
+			return tds;
+		}
+		/**
+		 * 获取受limitRows限制的行数据，因为受跨行的影响，
+		 * 实际数据行数可能会比limitRows多，并且tds可能比实际的表格td少
+		 */
+		this.getShortTds=function(){
+			return tds.slice(0,limitRows);
+		}
+		/**
+		 * 获取指定列，index从0开始
+		 */
+		this.getColumn=function(index){
+			var res=[];
+			tds.forEach(function(arr){
+				arr.forEach(function(td,col){
+					if(index==col){
+						res.push(td);
+						return false;
+					}
+				});
+			});
+			return res;
+		};
+		
+		/**
+		 * 获取第一个受限制的完整列
+		 */
+		this.getFirstAllColumn=function(){
+			var res=[];
+			var n=0;//当前列
+			var  newTds=tds.slice(0,limitRows);
+			for(var i=0;i<newTds.length;i++){
+				for(var j=0;j<newTds[i].length;j++){
+					if(n==j){
+						if(newTds[i][j]===emptyElemt){
+							n++;
+							i=-1;
+							res=[];
+						}else{
+							res.push(newTds[i][j]);
+						}
+						break;
+					}
+				}
+				if(res.length>=limitRows){
+					break;
+				}
+			}
+			return res;
+		}
+	}
+	
+	
 	//克隆top
 	function cloneTableTop(obj,objTable,rows,bgcolor,elIndex,boxAttr){
 		var height=0;
-		var tdJson={};
+		
+		var table=new Table(objTable,rows);
+		var tdArr=table.getFirstAllColumn();
+		console.log(tdArr);
+		tdArr.forEach(function(td,index){
+			height+=td.outerHeight();
+		});
+		console.log("高："+height);
+		/*var tdJson={};
 		$("tr",objTable).each(function(index){
 			if(index+1>rows){
 				return true;
@@ -121,7 +244,7 @@
 		var objTr=$("tr",objTable);
 		for(var i=0;i<rows;i++){
 			height+=objTr.eq(i).find("td").eq(rightColumn).outerHeight();
-		}
+		}*/
 		height++;
 		var jsonCss={
 			overflow:"hidden",
