@@ -253,6 +253,7 @@
 			position:"absolute",
 			top:boxAttr.top+"px",
 			left:boxAttr.left+"px",
+			zIndex:1001,
 			backgroundColor:bgcolor
 		};
 		var objDiv=$("<div class='js-freeze-div-"+elIndex+" js-freeze-top-div-"+elIndex+"'></div>");
@@ -310,6 +311,7 @@
 			position:"absolute",
 			top:boxAttr.top+"px",
 			left:boxAttr.left+"px",
+			zIndex:1002,
 			backgroundColor:bgcolor
 		};
 		var objDiv=$("<div class='js-freeze-div-"+elIndex+" js-freeze-left-div-"+elIndex+"'></div>");
@@ -328,6 +330,7 @@
 			position:"absolute",
 			top:boxAttr.top+"px",
 			left:boxAttr.left+"px",
+			zIndex:1003,
 			backgroundColor:bgcolor
 		};
 		var objDiv=$("<div class='js-freeze-div-"+elIndex+" js-freeze-left-top-div-"+elIndex+"'></div>");
