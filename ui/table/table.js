@@ -3,8 +3,10 @@
 	var defaults = {
 		heads: [], //表头信息，支持复杂表头
 		unPxDatas: [], //不排序的数据
+		unPxDatasFun:{},
 		columns: [], //列信息
-		list: [] //参与排序的数据
+		list: [], //参与排序的数据
+		listFun:{}
 	};
 
 	$.fn.ui_table = function(opts) {

@@ -13,10 +13,17 @@
 			throw new Error("参数有误");
 			return;
 		}
+		for(var i=0;i<freeze.length;i++){
+			freeze[i]=Number(freeze[i]);
+		}
+		
 		return this.each(function(elIndex){
 			var obj=$(this).css({overflow:"auto"}).data("elIndex",elIndex).data("freeze",freeze);
 			//setTableSize(obj);
-			makeFreeze(obj,freeze,elIndex);
+			var r=makeFreeze(obj,freeze,elIndex);
+			if(!r){
+				return;
+			}
 			var sl=0,st=0;
 			obj.scroll(function(){
 				sl=$(this).scrollLeft();
@@ -39,7 +46,9 @@
 			}
 			return el;
 		}).join("");
-		if(groupFreeze==="X000"){//冻结top
+		if(groupFreeze==="0000"){
+			return false;
+		}else if(groupFreeze==="X000"){//冻结top
 			//objTable=$("table",obj);
 			groupX000(obj,objTable,freeze[0],bgcolor,elIndex,boxAttr);
 		}else if(groupFreeze==="000X"){//冻结left
@@ -52,6 +61,7 @@
 			throw new Error("暂时还不支持的冻结方式")
 		}
 		eventMove(obj,elIndex);
+		return true;
 	}
 	
 	//复制了html，对事件进行迁移

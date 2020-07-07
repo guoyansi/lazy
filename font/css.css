@@ -1,0 +1,8 @@
+@font-face {
+	font-family:digifaw;
+	src: url(digifaw.ttf);
+}
+
+body{
+	font-family: digifaw;
+}
