@@ -17,8 +17,9 @@
 			freeze[i]=Number(freeze[i]);
 		}
 		
-		return this.each(function(elIndex){
-			var obj=$(this).css({overflow:"auto"}).data("elIndex",elIndex).data("freeze",freeze);
+		return this.each(function(){
+			var elIndex=$("[freeze=y]").length;
+			var obj=$(this).css({overflow:"auto"}).attr("freeze","y").data("elIndex",elIndex).data("freeze",freeze);
 			//setTableSize(obj);
 			var r=makeFreeze(obj,freeze,elIndex);
 			if(!r){
@@ -217,11 +218,9 @@
 		
 		var table=new Table(objTable,rows);
 		var tdArr=table.getFirstAllColumn();
-		console.log(tdArr);
 		tdArr.forEach(function(td,index){
 			height+=td.outerHeight();
 		});
-		console.log("高："+height);
 		/*var tdJson={};
 		$("tr",objTable).each(function(index){
 			if(index+1>rows){
