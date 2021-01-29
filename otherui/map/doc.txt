@@ -1,0 +1,24 @@
+内网百度地图
+问题：客户电脑处于完全内网环境
+思路：让客户电脑请求内网的nginx地址；nginx主机去请求外网环境
+	目前只有放大缩小时的异步请求是走nginx服务器；其他资源都是在本地的；后面根据需求需要下载更多的资源
+
+将map_resource放到nginx服务器根目录的html中
+配置import_baidu_gse_map.js信息
+引入nginx服务器的import_baidu_gse_map.js文件
+
+配置nginx代理：
+location / {
+    root   html;
+    index  index.html index.htm;
+    # gif图片访问有跨域的问题；这个地方配置允许跨域
+    add_header Access-Control-Allow-Origin *;
+}
+#瓦片地址
+location /gse_baidu0/ {
+   proxy_pass   http://maponline0.bdimg.com/;
+}
+#中心地址（不知道干啥的 ）
+location /cen/{
+    proxy_pass http://api.map.baidu.com/;
+}

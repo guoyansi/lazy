@@ -30,13 +30,30 @@ bg.ajax=function(opts){
             success(data);
             return;
         }
+        let isJson=true;
+        if (typeof data == 'string') {
+            try {
+                var obj=JSON.parse(data);
+                if(typeof obj == 'object' && obj ){
+                    data=obj;
+                    isJson=true;
+                }else{
+                    isJson=false;
+                    //return;
+                }
+            } catch(e) {
+                //return;
+                isJson=false;
+            }
+        }
+
         //ajax请求时 session失效
-        if(data.status==3){
+        if(isJson&&data.status==3){
             $.ui_dialog({
                 type:"e",
                 con:data.msg,
                 btn:[{name:"确定",action:function(){
-                    window.location.href=data.href;
+                    top.location.href=data.href;
                 }}]
             });
         }else{

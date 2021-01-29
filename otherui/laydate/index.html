@@ -10,6 +10,7 @@
 	</head>
 	<body>
 		<h1 style="color: #996600;">压缩版的laydate.min.js在某些情况下不兼容火狐，使用laydate.js</h1>
+		<h2 id="version"></h2>
 		<input type="text" class="demo-input" placeholder="常规用法" id="test1">
     <input type="text" class="demo-input" placeholder="国际版" id="test1-1">
     <input type="text" class="demo-input" placeholder="年选择器" id="test2">
@@ -27,6 +28,21 @@
     <input type="text" class="demo-input" placeholder="自定义颜色" id="test30">
     <input type="text" class="demo-input" placeholder="格子主题" id="test31">
     <input type="text" class="demo-input" placeholder="回调" id="test32">
+     <div style="margin-bottom: 30px;"></div>
+<input type="text" class="demo-input" placeholder="最大日期2021-03-20，最小日期2020-09-01" id="test33">
+<input type="text" class="demo-input" placeholder="过去一周到未来一周" id="test34">
+<input type="text" class="demo-input" placeholder="日期时间有效范围的设定" id="test35">
+<input type="text" class="demo-input" placeholder="上午九点半到下午五点半" id="test36">
+
+<div style="margin-bottom: 30px;"></div>
+非文本框时间控件
+<div id="test37" style="background-color: #000000;color: white;padding: 3px 10px;display: inline-block;">2020-09-22</div>
+<div style="margin-bottom: 30px;"></div>
+<button id="btn1">时间按钮</button>
+<input type="text" class="demo-input" placeholder="点击按钮触发" id="test38">
+<div style="margin-bottom: 30px;"></div>
+<input type="text" class="demo-input" placeholder="标注日期" id="test39">
+<input type="text" class="demo-input" placeholder="控件初始打开的回调" id="test40">
 
 	</body>
 </html>
@@ -34,7 +50,7 @@
 	 lay('#version').html('-v'+ laydate.v);
 
     //执行一个laydate实例
-    //常规用法
+     //常规用法
     laydate.render({
       elem: '#test1' //指定元素
     });
@@ -113,4 +129,80 @@
 	    alert('你选择的日期是：' + value + '\n获得的对象是' + JSON.stringify(date));
 	  }
     });
+    
+    //日期有效范围只限定在：2017年
+	laydate.render({
+	  elem: '#test33'
+	  ,min: '2020-09-01'
+	  ,max: '2021-03-20'
+	});
+	
+	//日期有效范围限定在：过去一周到未来一周
+	laydate.render({ 
+	  elem: '#test34'
+	  ,min: -7 //7天前
+	  ,max: 7 //7天后
+	});
+	
+	//日期时间有效范围的设定: 
+	laydate.render({ 
+	  elem: '#test35'
+	  ,type: 'datetime'
+	  ,min: '2020-09-21 12:30:00'
+	  ,max: '2020-09-23 12:30:00'
+	});
+	
+	
+	//时间有效范围设定在: 上午九点半到下午五点半
+	laydate.render({
+	  elem: '#test36'
+	  ,type: 'time'
+	  ,min: '09:30:00'
+	  ,max: '17:30:00'
+	});
+	//非文本框触发时间框
+	laydate.render({ 
+	  elem: '#test37'
+	 ,trigger: 'click' //采用click弹出
+	});
+	
+	//外部事件调用
+lay('#btn1').on('click', function(e){ //假设 btn1 是一个按钮
+  laydate.render({
+    elem: '#test38'
+    ,show: false //直接显示
+    ,closeStop: '#btn1' //这里代表的意思是：点击 test1 所在元素阻止关闭事件冒泡。如果不设定，则无法弹出控件
+  });
+});
+
+
+
+//标注重要日子
+var ins1 = laydate.render({
+  elem: '#test39'
+  ,mark: {
+    '0-10-14': '生日'
+    ,'0-12-31': '跨年' //每年12月31日
+    ,'0-0-10': '工资' //每个月10号
+    ,'2020-09-25': '' //具体日期
+    ,'2020-09-24': '预发' //如果为空字符，则默认显示数字+徽章
+    ,'2020-09-23': '发布'
+  }
+  ,done: function(value, date){
+  	console.log(date.month);
+  	console.log(date.date);
+    if(date.month == 8 && date.date == 15){ //点击2017年8月15日，弹出提示语
+      alert("下面这个提示不知道怎么出来");
+      ins1.hint('中国人民抗日战争胜利纪念日');
+    }
+  }
+});
+
+//控件初始打开的回调
+laydate.render({
+  elem: '#test40'
+  ,ready: function(date){
+    console.log(date); //得到初始的日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+  }
+});
 </script>

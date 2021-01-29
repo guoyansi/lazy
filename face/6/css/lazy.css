@@ -121,11 +121,52 @@ body{
 .ui-radio,
 .ui-checkbox{
 	margin-right: 15px;
+	position: relative;
 }
 .ui-radio input,
 .ui-checkbox input{
 	margin-right: 5px;
 }
+
+.ui-checkbox-green input:after,
+.ui-checkbox-blue input:after{
+	position: absolute;
+    width: 10px;
+    height: 15px;
+    top: 0;
+    left: 0;
+    content: " ";
+    background-color: #fff;
+    color: #fff;
+    display: inline-block;
+    visibility: visible;
+    padding: 0 3px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+.ui-checkbox-green input:after{
+	border: 1px solid #1dce0f;
+}
+.ui-checkbox-blue input:after{
+	border: 1px solid #0f97e7;
+}
+.ui-checkbox-green input:checked:after,
+.ui-checkbox-blue input:checked:after{
+    content: "✓";
+    font-size: 12px;
+}
+.ui-checkbox-green input:checked:after{
+	background-color: #1dce0f;
+}
+.ui-checkbox-blue input:checked:after{
+	background-color: #0f97e7;
+}
+.ui-checkbox-green input,
+.ui-checkbox-blue input{
+	margin-right: 15px;
+}
+
+
 /*******组件样式end**********/
 
 
@@ -274,11 +315,11 @@ body{
 	text-decoration: underline;
 }
 .ui-search{
-	overflow: hidden;
+	/*overflow: hidden;*/
 	/*padding-right: 20px;*/
 }
 .ui-search-item{
-	overflow: hidden;
+	/*overflow: hidden;*/
 	float: left;
 	padding: 3px;
 	margin-right: 20px;
@@ -290,6 +331,7 @@ body{
 .ui-search-item-left,
 .ui-search-item-right{
 	display: inline-block;
+	vertical-align: middle;
 }
 .ui-table-box{
 	/*padding-right: 20px;*/

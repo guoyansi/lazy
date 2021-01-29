@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<link href="jquery.fSelect.css" rel="stylesheet" type="text/css" />
+	<script src="../../js/jquery-2.1.4.js"></script>
+	<script src="jquery.fSelect.js"></script>
+	<style type="text/css">
+		.fs-label-wrap .fs-label{
+			height: 15px;
+			line-height: 15px;
+		}
+	</style>
+	<script>
+		$(function() {
+			$('.demo').fSelect({
+				placeholder:"",
+                numDisplayed: 5,
+                //overflowText: '{n} selected',
+                //searchText: 'Search',
+                showSearch: false
+			});
+		});
+		$(function() {
+			$('.demo2').fSelect();
+		});
+		function getValue(){
+			console.log($('.demo').val());
+		}
+	</script>
+</head>
+<select class="demo" multiple="multiple" style="height: 30px;">  
+    <optgroup label="Languages">  
+        <option value="cp">C++</option>  
+        <option value="cs">C#</option>  
+        <option value="oc">Object C</option>  
+        <option value="c">C</option>  
+    </optgroup>  
+    <optgroup label="Scripts">  
+        <option value="js">JavaScript</option>  
+        <option value="php">PHP</option>  
+        <option value="asp">ASP</option>  
+        <option value="jsp">JSP</option>  
+    </optgroup>  
+</select>
+<button onclick="getValue()">获取选中值</button>
+
+<select class="demo2" multiple="multiple">  
+    <option value="js">安徽</option>  
+    <option value="php">四川</option>  
+    <option value="asp">湖南</option>  
+    <option value="jsp">江西</option>  
+</select>
+
+<select class="demo2" multiple="multiple">
+	<option selected="selected"></option>  
+    <option value="js">安徽</option>  
+    <option value="php">四川</option>  
+    <option value="asp">湖南</option>  
+    <option value="jsp">江西</option>  
+</select>
+</html>
