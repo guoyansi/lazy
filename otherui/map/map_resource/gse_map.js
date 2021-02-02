@@ -52,7 +52,7 @@ window.TILE_VERSION = {
 };
 window.MSV = {};
 //window.BMAP_AUTHENTIC_KEY = "ZgbjDUBzYetlX3DFwOq28rCEtdU7KrMx";
-window.BMAP_AUTHENTIC_KEY = bd_map_cfg.ak;
+window.BMAP_AUTHENTIC_KEY = bd_map_cfg.ak;//guoyansi
 window.BMapGL = window.BMapGL || {};
 (function(bo, eA) {
 	var C = C || {
@@ -11738,6 +11738,7 @@ window.BMapGL = window.BMapGL || {};
 	var bH = {
 		B_NORMAL_MAP: {
 			tileUrls: er(e3.tileDomain, e3.rasterTilePath),
+			//tileUrls: er([wp_proxy_pass], e3.rasterTilePath),//guoyansi
 			vectorTileUrls: er(e3.tileDomain, e3.vectorTilePath),
 			tileSize: 256,
 			baseUnits: 256,
@@ -17862,7 +17863,7 @@ window.BMapGL = window.BMapGL || {};
 			//hY="http://maponline2.bdimg.com/pvd/";
 			//hY="http://localhost/baidu2/pvd/";
 			//guoyansi
-			hY=bd_map_cfg.wp_proxy_pass;
+			hY=bd_map_cfg.wp_proxy_pass+"pvd/";
 					
 			
 			//console.log("hY:"+hY);
@@ -21036,7 +21037,8 @@ window.BMapGL = window.BMapGL || {};
 					return hS < hR
 				},
 				"\x6c\x65\x64\x61\x65": ax("0x2b"),
-				"\x69\x6c\x68\x61\x64": window.location.protocol + "//api.map.baidu.com/res/webgl/10/worker_wasm_kcp3uy.js",
+				//"\x69\x6c\x68\x61\x64": window.location.protocol + "//api.map.baidu.com/res/webgl/10/worker_wasm_kcp3uy.js",
+				"\x69\x6c\x68\x61\x64": bd_map_cfg.host_dir+"gse_worker_wasm_kcp3uy.js",
 				"\x63\x6c\x64\x61\x61": ax("0x2c"),
 				"\x63\x68\x6d\x6c\x61": function(hS, hR) {
 					return hS !== hR
